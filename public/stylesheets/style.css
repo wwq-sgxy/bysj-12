@@ -1,0 +1,29 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+/*For index.jade --start--*/
+.title-block {
+  padding-top: 70px;
+  height: 300px;
+  text-align: center;
+}
+.pro-block {
+  height: 200px;
+  /*border: 1px solid grey;     边框*/
+  padding: 10px 10px;
+}
+.be-block {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.a-style {
+  background-color: #999d9c;/*The links' bg-color*/
+}
+/*For index.jade --end--*/
