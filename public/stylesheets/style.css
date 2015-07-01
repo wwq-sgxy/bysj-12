@@ -9,14 +9,14 @@ a {
 
 /*For index.jade --start--*/
 .title-block {
-  padding-top: 70px;
-  height: 300px;
+  /*height: 420px;         /*------标题部分的高度-------*/
   text-align: center;
+  padding: 80px 0px;
 }
 .pro-block {
-  height: 200px;
+  height: 250px;          /*------各系统入口块的统一高度-------*/
   /*border: 1px solid grey;     边框*/
-  padding: 10px 10px;
+  padding: 0 10px 10px 0;
 }
 .be-block {
   width: 100%;
@@ -24,6 +24,14 @@ a {
   display: block;
 }
 .a-style {
-  background-color: #999d9c;/*The links' bg-color*/
+  color: #000000;
+  background-color: #DDDDDD;/*The links' bg-color*/
+  font-size: 24px;
+  text-align: center;
+  padding: 70px 0 0px 0;
+}
+.hr-style {     /*水平线的样式*/
+  height: 5px;
+  background-color: black;
 }
 /*For index.jade --end--*/

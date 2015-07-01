@@ -7,12 +7,14 @@ var session = require('express-session');       //载入express-session模块
 var RedisStore = require('connect-redis')(session); //载入connect-redis模块
 var bodyParser = require('body-parser');        //载入body-parser模块
 
+//var tables = require('./models/tabled.js');  //表定义
 var routes = require('./routes/main/index');   //载入根路由
 var users = require('./routes/main/users');    //载入users路由
 var auth = require('./routes/main/session');   //载入会话路由，用做身份认证
 
 var app = express();          //生成express应用程序实例
 
+//auth.tables = tables;
 // 建立视图引擎
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -29,6 +31,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+app.use(require('flash')());
 app.use(express.static(path.join(__dirname, 'public')));  //启用静态文件服务中间件
 
 app.use('/', routes);       //启用根路由中间件

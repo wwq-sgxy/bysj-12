@@ -1,24 +1,30 @@
 extends layout
 
 block content
-  include ./header.jade
-  .panel.panel-primary.col-sm-offset-3(style="width:50%; margin-top:50px")
+  .panel.panel-primary.col-sm-offset-3(style="width:50%")
     .panel-heading
-      h3.panel-title 奇葩七人
+      h3.panel-title奇葩七人
     .panel-body(style="align:center")
       form.form-horizontal(method="post", action="/auth/login")
-        include ./messages.jade
         .form-group
           span.glyphicon.glyphicon-pencil(aria-hidden="true")
-          label.col-sm-4.control-label(for="name") 账号：
+          label.col-sm-4.control-label(for="name") 用户名：
           .col-sm-4
-            input#name.form-control(type="text", name="userid" placeholder="请输入学号或教职工工号")
+            input#name.form-control(type="text", placeholder="请输入用户名或邮箱")
         .form-group
           span.glyphicon.glyphicon-lock(aria-hidden="true")
-          a(href="#") &nbsp;&nbsp;忘记密码？！戳我
-          label.col-sm-4.control-label(for="Password") 密码：
+          a(href="#")&nbsp;&nbsp;忘记密码？！戳我
+          label.col-sm-4.control-label(for="Password") 密&nbsp;&nbsp;&nbsp;&nbsp;码：
           .col-sm-4
-            input#Password.form-control(type="password", name="pass" placeholder="请输入密码")
+            input#Password.form-control(type="password", placeholder="请输入密码")
+        .form-group
+          .col-sm-offset-4.col-sm-4
+            label.radio-inline
+              input#optionsRadio1(type="radio",name="optionsRadios",value="option1",checked="true")
+              |学生
+            label.radio-inline
+              input#optionsRadio2(type="radio",name="optionsRadios",value="option2")
+              |教师
         .form-group
           .col-sm-offset-4.col-sm-4
             .checkbox

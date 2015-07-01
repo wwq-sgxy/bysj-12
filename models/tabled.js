@@ -1,8 +1,7 @@
-var Sequelize = require('sequelize'),
-    db = require('../models/dbc.js'),
-    crypto = require('crypto'),
-    hmac = crypto.createHmac('sha1', '650827');
-    //validator = require('validator');
+//此文件用于定义数据库模型并同步到数据库
+//表单参数的验证在定义时完成
+var Sequelize = require('sequelize');
+var db = require('./dbc.js');
 
 //定义Unit模型
 var Unit = db.sequelize.define('unit', {
@@ -62,38 +61,8 @@ var User = db.sequelize.define('user',
     ]
   }
 );
-/*
-User.sync().then(function () {
-  // Table created
-  return User.create(
-    {
-      numid: 'sysadm5', 
-      name: '李华鸿', 
-      pass: hmac.update('123456').digest('hex'),
-      unitid: 1,
-      astatus: '已通过'
-    }
-  );
-});
-*/
-/*
-User.findById(1).then(function(user) {
-  console.log(user.name);
-  console.log(db.dbTimeToLocaltime({
-    dbtime: user.createdAt,
-    tz: 8
-  }).toLocaleString());
-});
-*/
 
-var pass = hmac.update('123456').digest('hex');
-User.findOne({
-  where: {numid: 'sysadm2', pass: pass},
-  attributes: ['id', 'numid', 'name']
-}).then(function(user) {
-  if (user) {
-    console.log(user.id, user.numid, user.name);
-  } else {
-    console.log('没找到！');
-  }
-});
+//User.sync();    //User模型与数据库users表同步
+//User.sync({force: true});
+exports.Unit = Unit;
+exports.User = User;
