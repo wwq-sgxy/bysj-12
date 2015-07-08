@@ -1,0 +1,100 @@
+extends ../layout
+block content
+  script(src='/units.js')
+  script(src='/javascripts/getUnit.js')
+  script(type="text/javascript").
+    $(function(){
+      $('#role').change(function(){
+        switch ($(this).val()){
+          case '学生':
+            $('#stu_unit_code').removeClass('hidden');
+            $('#stu_unit_name').removeClass('hidden');
+            $('#tea_unit_code').addClass('hidden');
+            $('#tea_unit_name').addClass('hidden');
+            break;
+          case '教师':
+            $('#tea_unit_code').removeClass('hidden');
+            $('#tea_unit_name').removeClass('hidden');
+            $('#stu_unit_code').addClass('hidden');
+            $('#stu_unit_name').addClass('hidden');
+            break;
+          case '行政人员':
+            break;
+          default : 
+            break;
+        }
+      });
+      
+      //异步提交表单
+      $('#addUnitForm').submit(function(){
+        var send_data = {
+          ''
+        }
+        return false;
+      });
+      
+    });
+  include ../header
+  .container
+    .row
+      #units_new.col-md-10.col-md-offset-1
+        .panel.panel-primary#0066CC
+          .panel-heading
+            h3.panel-title  创建行政单元
+          .panel-body
+            form#addUnitForm.form-horizontal(method = "post" action = "")
+              //代码
+              .form-group
+                label.col-sm-2.control-label  代码:
+                .col-sm-10
+                  //学生
+                  p#stu_unit_code.form-control-static(name="code")
+                    span 10576-01-01
+                    span.college
+                    span.grade
+                    span.major
+                    span.stuclass
+                  //老师
+                  p#tea_unit_code.form-control-static.hidden(name="code")
+                    span 10576-02
+                    span.institution
+                    span.department
+                    span.divsion
+              //基本角色 + 状态
+              .form-group
+                label.col-sm-2.control-label  基本角色:
+                .col-sm-10
+                  .input-group
+                    span.input-group-addon
+                      input(type="checkbox" name="status" aria-label="状态:是否启用" checked="checked")
+                    select#role.form-control(name="role")
+                      option(value="学生") 学生
+                      option(value="教师") 教师
+                      option(value="行政人员") 行政人员
+              //名称
+              .form-group
+                label.col-sm-2.control-label  所属单元:
+                .col-sm-10
+                  //学生
+                  #stu_unit_name.input-group
+                    span.input-group-addon 韶关学院&nbsp;-
+                    select#college.form-control
+                    span.input-group-addon &nbsp;-
+                    select#grade.form-control
+                    span.input-group-addon &nbsp;-
+                    select#major.form-control
+                    span.input-group-addon &nbsp;-
+                    select#stuclass.form-control
+                  //老师
+                  #tea_unit_name.input-group.hidden
+                    span.input-group-addon 韶关学院&nbsp;-
+                    select#institutions.form-control
+                    span.input-group-addon &nbsp;-
+                    select#departments.form-control
+                    span.input-group-addon &nbsp;-
+                    select#divsion.form-control
+              //提交
+              .form-group
+                .col-sm-offset-4
+                  input.button.button-glow.button-border.button-rounded.button-primary.btn-lg(type="submit" value="确认提交")
+          //.panel-footer                      

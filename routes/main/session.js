@@ -1,7 +1,7 @@
 var express = require('express'),
     router = express.Router(),
     tables = require('../../models/tabled.js'),  //表定义
-    crypto = require('crypto');
+    crypto = require('crypto');  //密码加密 
 
 //处理登录--获取登录表单
 router.get('/login', function(req, res, next) {

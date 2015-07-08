@@ -2,31 +2,28 @@ extends layout
 
 block content
   include ./header.jade
-    //以下一行是大标题，包含装饰用的hr水平线和标题内容
-  .row(style="height:300px;")
-    .hidden-xs.col-sm-1.col-md-2
-    .title-block.col-xs-12.col-sm-10.col-md-8
-      hr.hr-style
-      h1(style="font-size: 80px;font-family:'微软雅黑';") 奇葩七人系统
-      p(style="font-size: 14px;") 来自韶关学院，专注为高校学子开发的，基于MVC框架的七个系统的组合。只有你想不到的，没有我们做不到的。
-      hr.hr-style
-    .hidden-xs.col-sm-1.col-md-2
-  //以下一行含八个入口，其中一个是“关于我们”，其余七个是各系统入口
-  .row
-    .container-fluid
+  #index.container
+    .row
+      .title-block.col-sm-8.col-sm-offset-2
+        hr
+        h1 奇葩七人系统
+        p 来自韶关学院，专注为高校学子开发的，基于MVC框架的七个系统的组合。只有你想不到的，没有我们做不到的。
+        hr
+    //以下一行含八个入口，其中一个是“关于我们”，其余七个是各系统入口
+    .row
       .pro-block.col-xs-12.col-sm-12.col-md-6
-        a.a-style.be-block(href="#") 综合信息服务系统
+        a(href="#") 综合信息服务系统
       .pro-block.col-xs-12.col-sm-12.col-md-6
-        a.a-style.be-block(href="#") 电子资料管理系统
+        a(href="#") 电子资料管理系统
       .pro-block.col-xs-12.col-sm-12.col-md-6
-        a.a-style.be-block(href="#") 课堂教学管理系统
+        a(href="#") 课堂教学管理系统
       .pro-block.col-xs-12.col-sm-12.col-md-6
-        a.a-style.be-block(href="#") 师生课外学习交流平台
+        a(href="#") 师生课外学习交流平台
       .pro-block.col-xs-12.col-sm-12.col-md-6
-        a.a-style.be-block(href="#") 实验课WEB管理系统
+        a(href="#") 实验课WEB管理系统
       .pro-block.col-xs-12.col-sm-12.col-md-6
-        a.a-style.be-block(href="#") 调查表决与意见反馈系统
+        a(href="#") 调查表决与意见反馈系统
       .pro-block.col-xs-12.col-sm-12.col-md-6
-        a.a-style.be-block(href="#") 学生事务WEB应用系统
+        a(href="#") 学生事务WEB应用系统
       .pro-block.col-xs-12.col-sm-12.col-md-6
-        a.a-style.be-block(href="#") 关于我们
+        a(href="#") 关于我们

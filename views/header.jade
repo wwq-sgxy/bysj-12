@@ -1,21 +1,11 @@
-.container-fluid
-    //第一行内容为导航条，含有logo图标和登录/注册/退出的按钮
-    .row
-      //导航条为“反色导航条”，且“固定在页面顶部”
-      nav.navbar.navbar-inverse.navbar-fixed-top
-        //container类的容器使得导航条中的内容居中显示，并具有固定宽度
-        .container
-          //图标显示有问题，应该通过自定义css来调整其样式----------------
-          a.navbar-brand(href="#",style="padding:25px 0 0 0;")
-            img(alt="brand",src="/images/brand.gif",style="width:51px;height:auto;")
-          p.navbar-text.navbar-right
-            a.navbar-link(href="/") 主页
-            span  | 
-            if sess.user !== null
-              a.navbar-link(href="/auth/logout") 注销
-              span [#{sess.user.name}]  
-            else
-              a.navbar-link(href="/signup") 注册
-              span  | 
-              a.navbar-link(href="/auth/login") 登录
-              span  | 
+nav#header.navbar.navbar-inverse.navbar-fixed-top
+  .container-fluid
+    a.navbar-brand(href="/")
+      img(alt="brand",src="/images/brand.gif")
+    p.navbar-text.navbar-right
+      a.navbar-link(href="/") 主页
+      if sess.user
+        a.navbar-link(href="/auth/logout") 注销[#{sess.user.name}]
+      else
+        a.navbar-link(href="/signup") 注册
+        a.navbar-link(href="/auth/login") 登录

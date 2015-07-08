@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');        //载入body-parser模块
 var routes = require('./routes/main/index');   //载入根路由
 var users = require('./routes/main/users');    //载入users路由
 var auth = require('./routes/main/session');   //载入会话路由，用做身份认证
-
+var units = require('./routes/main/units');  //载入units路由
 var app = express();          //生成express应用程序实例
 
 //auth.tables = tables;
@@ -33,10 +33,12 @@ app.use(session({
 }));
 app.use(require('flash')());
 app.use(express.static(path.join(__dirname, 'public')));  //启用静态文件服务中间件
+app.use(express.static(path.join(__dirname, 'config')));
 
 app.use('/', routes);       //启用根路由中间件
 app.use('/users', users);   //启用users路由中间件
 app.use('/auth', auth);     //启用session路由中间件
+app.use('/units', units);   //启用units路由中间件
 
 // 捕获404错误并转错误处理函数
 app.use(function(req, res, next) {

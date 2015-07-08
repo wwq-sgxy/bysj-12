@@ -3,10 +3,14 @@ html
   head
     title= title
     meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/buttons.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet/less" type="text/css" href="/stylesheets/styles.less")
     script(src='/javascripts/jquery.min.js')
     script(src='/javascripts/bootstrap.min.js')
+    script less = { env: 'development', async: true, fileAsync: true };
+    script(src="/javascripts/less.min.js")
+    script less.watch();
   body
     block content

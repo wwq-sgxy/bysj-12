@@ -10,7 +10,15 @@ router.get('/', function(req, res, next) {
 
 //处理注册
 router.get('/signup', function(req, res, next) {
-  res.render('signup', { title: '注册' });
+  var sess = req.session;
+  res.render('signup', { title: '注册', sess: sess });
+});
+
+router.get('/test', function(req, res, next) {
+  var Unitinfo = require("../../config/units_metadata.js");
+  var units = new Unitinfo();
+  var opts = units.utype;
+  res.render('test', { title: '主页', opts: opts });
 });
 
 module.exports = router;

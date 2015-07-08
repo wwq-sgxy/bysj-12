@@ -1,0 +1,66 @@
+//这里展示units表的全部记录的视图
+extends ../layout
+
+block content
+  script(type="text/javascript").
+    $(function() {
+      var cp = parseInt($("#pnum").val());
+      var maskp = 0;
+      
+      if (!isNaN(cp) && cp <= 10) {
+        $("ul.pagination li:gt(10)").hide();
+        $("ul.pagination li:last").show();
+      } else {
+        maskp = (Math.floor(cp/10) - 1)*10 + (cp % 10) + 1;
+        $("ul.pagination li:lt(" + maskp + ")").hide();
+        $("ul.pagination li:first").show();
+        maskp += 9;
+        $("ul.pagination li:gt(" + maskp + ")").hide();
+        $("ul.pagination li:last").show();
+      }
+      var total = parseInt($("#total").text().substr(2));
+      
+      $("#pageOK").click(function() {
+        var pn = parseInt($("#pnum").val());
+        if (!isNaN(pn) && pn > 0 && pn <= total) {
+          window.location = location.pathname + "?s=" + pn;
+        } else {
+          alert("超出页范围或输入非数字！");
+        }
+      });
+    });
+  include ../header.jade
+  #units_index.container
+    .row
+      .col-md-10.col-md-offset-1
+        p 
+          a(href="./units_new" target="_blank")创建
+        table.table.table-striped.table-hover
+          tr
+            td 类别码
+            td 名字
+            td 状态
+            td 角色
+            td
+            td
+          each unit in units
+            tr
+              td= unit.htcode
+              td= unit.name
+              td= (unit.status)? '启用' : '禁用'
+              td= unit.role
+              td 
+                a(href="./units_edit") 编辑
+              td 
+                a(href="./units_delete") 删除
+    .row
+      .col-lg-8.unit-pager
+        !{pagesHTML}
+      .col-lg-2.page-num
+        .input-group
+          span.input-group-btn
+            button(class="btn btn-default" type="button" id="pageOK") Go
+          input(type="text" class="form-control" id="pnum" value="#{curPage}")
+          span.input-group-addon(id="total") / #{total}
+          
+    

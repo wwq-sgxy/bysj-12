@@ -1,0 +1,41 @@
+//显示单条unit的完整记录的视图units_show.jade
+extends ../layout
+
+block content
+    include ../header.jade
+    #units_show.container
+      .row
+        .col-xs-12.col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2
+          .panel.panel-info
+            .panel-heading
+              h4 查看行政单元
+            table.table.table-striped.table-hover
+              tr
+                td
+                  lable 类别码
+                td
+                  span=unit.htcode
+              tr
+                td
+                  lable 名称
+                td
+                  span=unit.name
+              tr
+                td
+                  lable 基本角色
+                td
+                  span=unit.role
+              tr
+                td
+                  lable 状态
+                td
+                  span=unit.status
+            .panel-footer
+              a(title="返回行政单元列表",href="units_all")
+                button.button.button-large.button-primary.button-border.button-circle
+                  i.fa.fa-reply Back
+              a.pull-right(title="编辑",href="units_edit")
+                button.button.button-large.button-primary.button-border.button-circle
+                  span.glyphicon.glyphicon-pencil
+        
+          

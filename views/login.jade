@@ -2,32 +2,32 @@ extends layout
 
 block content
   include ./header.jade
-  .panel.panel-primary.col-sm-offset-3(style="width:50%; margin-top:50px")
-    .panel-heading
-      h3.panel-title 奇葩七人
-    .panel-body(style="align:center")
-      form.form-horizontal(method="post", action="/auth/login")
-        include ./messages.jade
-        .form-group
-          span.glyphicon.glyphicon-pencil(aria-hidden="true")
-          label.col-sm-4.control-label(for="name") 账号：
-          .col-sm-4
-            input#name.form-control(type="text", name="userid" placeholder="请输入学号或教职工工号")
-        .form-group
-          span.glyphicon.glyphicon-lock(aria-hidden="true")
-          a(href="#") &nbsp;&nbsp;忘记密码？！戳我
-          label.col-sm-4.control-label(for="Password") 密码：
-          .col-sm-4
-            input#Password.form-control(type="password", name="pass" placeholder="请输入密码")
-        .form-group
-          .col-sm-offset-4.col-sm-4
-            .checkbox
-              label
-                input(type="checkbox")
-                |记住密码
-        .form-group
-          .col-sm-3.col-sm-offset-3
-            
-            button.button.button-3d.button-primary.button-rounded.button-xs(type="submit") 登录
-          .col-sm-3.col-sm-offset-0
-            button.button.button-3d.button-primary.button-rounded.button-xs.align-left(type="submit") 注册
+  #login.col-sm-offset-3.col-sm-6
+    .panel.panel-primary
+      .panel-heading
+        h3.panel-title 奇葩七人
+      .panel-body
+        form.form-horizontal(method="post", action="/auth/login")
+          include ./messages.jade
+          .form-group
+            span.glyphicon.glyphicon-pencil(aria-hidden="true")
+            label.col-sm-4.control-label(for="name") 账号：
+            .col-sm-4
+              input#name.form-control(type="text", name="userid" placeholder="请输入学号或教职工工号")
+          .form-group
+            span.glyphicon.glyphicon-lock(aria-hidden="true")
+            a(href="#") &nbsp;&nbsp;忘记密码？！戳我
+            label.col-sm-4.control-label(for="Password") 密码：
+            .col-sm-4
+              input#Password.form-control(type="password", name="pass" placeholder="请输入密码")
+          .form-group
+            .col-sm-offset-4.col-sm-4
+              .checkbox
+                label
+                  input(type="checkbox")
+                  |记住密码
+          .form-group
+            .col-sm-3.col-sm-offset-3
+              button.button.button-3d.button-primary.button-rounded.button-xs(type="submit") 登录
+            .col-sm-3.col-sm-offset-0
+              button.button.button-3d.button-primary.button-rounded.button-xs.align-left(type="submit") 注册
