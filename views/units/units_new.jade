@@ -1,100 +1,65 @@
 extends ../layout
 block content
-  script(src='/units.js')
-  script(src='/javascripts/getUnit.js')
-  script(type="text/javascript").
-    $(function(){
-      $('#role').change(function(){
-        switch ($(this).val()){
-          case '学生':
-            $('#stu_unit_code').removeClass('hidden');
-            $('#stu_unit_name').removeClass('hidden');
-            $('#tea_unit_code').addClass('hidden');
-            $('#tea_unit_name').addClass('hidden');
-            break;
-          case '教师':
-            $('#tea_unit_code').removeClass('hidden');
-            $('#tea_unit_name').removeClass('hidden');
-            $('#stu_unit_code').addClass('hidden');
-            $('#stu_unit_name').addClass('hidden');
-            break;
-          case '行政人员':
-            break;
-          default : 
-            break;
-        }
-      });
-      
-      //异步提交表单
-      $('#addUnitForm').submit(function(){
-        var send_data = {
-          ''
-        }
-        return false;
-      });
-      
-    });
+  - var caption = (role == 'stu')? '创建学生行政单元' : '创建教职工行政单元'
+  - var initcode = (role == 'stu')? '10576-01-01-xx-xxxx-xx-xx' : '10576-02-xx-xx-xx'
+
+  if role == 'stu'
+    script(src='/units_student.js')
+    script(src='/javascripts/getStudentUnit.js')
+  else
+    script(src='/units_teacher.js')
+    script(src='/javascripts/getTeacherUnit.js')
+  
   include ../header
-  .container
-    .row
-      #units_new.col-md-10.col-md-offset-1
-        .panel.panel-primary#0066CC
-          .panel-heading
-            h3.panel-title  创建行政单元
-          .panel-body
-            form#addUnitForm.form-horizontal(method = "post" action = "")
-              //代码
-              .form-group
-                label.col-sm-2.control-label  代码:
-                .col-sm-10
-                  //学生
-                  p#stu_unit_code.form-control-static(name="code")
-                    span 10576-01-01
-                    span.college
-                    span.grade
-                    span.major
-                    span.stuclass
-                  //老师
-                  p#tea_unit_code.form-control-static.hidden(name="code")
-                    span 10576-02
-                    span.institution
-                    span.department
-                    span.divsion
-              //基本角色 + 状态
-              .form-group
-                label.col-sm-2.control-label  基本角色:
-                .col-sm-10
-                  .input-group
-                    span.input-group-addon
-                      input(type="checkbox" name="status" aria-label="状态:是否启用" checked="checked")
-                    select#role.form-control(name="role")
-                      option(value="学生") 学生
-                      option(value="教师") 教师
-                      option(value="行政人员") 行政人员
-              //名称
-              .form-group
-                label.col-sm-2.control-label  所属单元:
-                .col-sm-10
-                  //学生
-                  #stu_unit_name.input-group
-                    span.input-group-addon 韶关学院&nbsp;-
-                    select#college.form-control
-                    span.input-group-addon &nbsp;-
-                    select#grade.form-control
-                    span.input-group-addon &nbsp;-
-                    select#major.form-control
-                    span.input-group-addon &nbsp;-
-                    select#stuclass.form-control
-                  //老师
-                  #tea_unit_name.input-group.hidden
-                    span.input-group-addon 韶关学院&nbsp;-
-                    select#institutions.form-control
-                    span.input-group-addon &nbsp;-
-                    select#departments.form-control
-                    span.input-group-addon &nbsp;-
-                    select#divsion.form-control
-              //提交
-              .form-group
-                .col-sm-offset-4
-                  input.button.button-glow.button-border.button-rounded.button-primary.btn-lg(type="submit" value="确认提交")
-          //.panel-footer                      
+  #units_new.container
+    .panel.panel-primary
+      .panel-heading
+        h3.panel-title #{caption}
+      .panel-body
+        form#UnitForm.form-horizontal(method="post" action="")
+          include ../messages.jade
+          .form-group
+            .input-group
+              span.input-group-addon 单元编码
+              input(id="unit-code" type="text" class="form-control" disabled value="#{initcode}" title="自动显示单元编码")
+          .form-group
+            .input-group
+              if role == 'stu'
+                span.input-group-addon 二级学院
+                select#college.form-control
+              else
+                span.input-group-addon 机构部门
+                select#institutions.form-control
+              span.input-group-addon @韶关学院
+            .input-group
+              if role == 'stu'
+                span.input-group-addon 所属年级
+                select#grade.form-control
+              else
+                span.input-group-addon 机构附属
+                select#departments.form-control
+              span.input-group-addon @韶关学院
+            .input-group
+              if role == 'stu'
+                span.input-group-addon 所属专业
+                select#major.form-control
+              else
+                span.input-group-addon 院系附属
+                select#divsion.form-control
+              span.input-group-addon @韶关学院
+            .input-group
+              if role == 'stu'
+                span.input-group-addon 所属班级
+                select#stuclass.form-control
+                span.input-group-addon @韶关学院
+          .form-group
+            .btnok
+              input.button.button-glow.button-border.button-rounded.button-primary.btn-lg(type="submit" value="提交")
+          .form-group
+            p.link
+              if role == 'stu'
+                a(href="/units/new?role=tea" target="_blank") 创建教职工单元
+              else
+                a(href="/units/new?role=stu" target="_blank") 创建学生单元
+              span  &nbsp;| &nbsp;  
+              a(href="/units" target="_blank") 显示全部

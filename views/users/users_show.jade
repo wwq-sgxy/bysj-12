@@ -1,0 +1,29 @@
+//显示单条users的完整记录的视图users_show.jade
+extends ../layout
+
+block content
+    include ../header.jade
+    #users_show.container
+      .panel.panel-info.col-sm-8.col-sm-offset-2
+        .panel-heading
+          h3 用户详细信息
+        .panel-body
+          table.table.table-striped.table-hover
+            tr
+              td 唯一性身份ID
+              td=user.numid
+            tr
+              td 姓名
+              td=user.name
+            tr
+              td 密码
+              td=user.pass
+            tr
+              td 行政单元ID
+              td=user.unitid
+            tr
+              td 审核状态
+              td=user.astatus
+            tr
+              td 社团ID集合
+              td=user.cidset

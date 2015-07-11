@@ -1,5 +1,4 @@
 var express = require('express');
-//var User = require('../models/user');   //加载User模型
 var router = express.Router();
 var tables = require('../../models/tabled.js');
 //var Unitinfo = require('../config/units_metadata.js');

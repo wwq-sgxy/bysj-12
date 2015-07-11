@@ -5,9 +5,9 @@ body {
 
 //以下是固定导航条的样式
 #header {
-  nav {
-    background-color: rgba(0,0,0,0.4);
-  }
+  
+    background-color: rgba(0,0,0,0.7);
+  
   a {
     margin-top: -10px;
     margin-left: 20px;
@@ -19,6 +19,7 @@ body {
 
 //以下是适用于主页的样式
 #index {
+  
   .title-block {
     text-align: center;
     padding: 80px 0px;
@@ -38,7 +39,6 @@ body {
     height: 150px; 
     padding: 0 10px 10px 0;
     a {
-      color: #00B7FF;
       color: #000000;
       background-color: #DDDDDD;/*The links' bg-color*/
       font-size: 24px;
@@ -55,23 +55,79 @@ body {
 #units_index {
   margin-top: 50px;
   td {
-    padding-right: 20px;
-    
+    padding-right: 10px;
   }
   .page-num {
     padding-top: 40px;
-    padding-left: 0;
+    padding-left: 120px;
   }
   .unit-pager {
     margin: 0;
     padding-right: 0;
     padding-left: 120px;
   }
-}
-
-#units_new{
-  .form-group{
-  padding-bottom:10px;
+  h2 {
+    text-align: center;
+  }
+  p {
+    text-align: right;
+  }
+  td.link {
+    width: 6%;
+  }
+  td.status-role {
+    width: 10%;
+  }
+  td.code {
+    width: 20%;
   }
 }
- 
+//以下样式适用于 units/new 和units/edit页面
+#units_new, #units_edit {
+  #UnitForm {
+    padding: 40px;
+  }
+  .panel {
+    width: 70%;
+    margin-left: 15%;
+  }
+  .form-group{
+    padding:0 10px 0 0;
+  }
+  p.link {
+    text-align: center;
+  }
+  .btnok {
+    text-align: center;
+    margin: 40px 0 10px 0;
+  }
+  label {
+    padding: 10px 0 0 0;
+  }
+  #stu_unit_name {
+    padding-left: 15px;
+  }
+  .btn-group {
+    width: 15%;
+    label {
+      width: 80%;
+      padding: 5px;
+      input {
+        margin: 0px;
+      }
+    }
+  }
+}
+//以下样式适用于 units/show 页面 
+#units_show {
+  .panel {
+    padding: 0px;
+    .panel-body {
+      padding: 20px;
+      td.left {
+        text-align: right;
+        width: 15%;
+      }
+    }
+  }
+}

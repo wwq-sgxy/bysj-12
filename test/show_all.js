@@ -2,14 +2,9 @@ var Sequelize = require('sequelize');
 var tables = require('../models/tabled.js');
 
 var Unit = tables.Unit;
-var pageSize = 3;//每页多少条
-var cpage=1;//当前第几页
-var start=(cpage-1)*pageSize;
-Unit.findAll(
+User.findAll(
   {
-    offset:start,
-    limit:pageSize,
-    attributes: ['htcode', 'name', 'status','role']
+    attributes: ['numid', 'name', 'pass']
   }).then(function(units){
     
     for(var i = 0; i < units.length; i++){

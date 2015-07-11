@@ -2,65 +2,43 @@
 extends ../layout
 
 block content
-  script(type="text/javascript").
-    $(function() {
-      var cp = parseInt($("#pnum").val());
-      var maskp = 0;
-      
-      if (!isNaN(cp) && cp <= 10) {
-        $("ul.pagination li:gt(10)").hide();
-        $("ul.pagination li:last").show();
-      } else {
-        maskp = (Math.floor(cp/10) - 1)*10 + (cp % 10) + 1;
-        $("ul.pagination li:lt(" + maskp + ")").hide();
-        $("ul.pagination li:first").show();
-        maskp += 9;
-        $("ul.pagination li:gt(" + maskp + ")").hide();
-        $("ul.pagination li:last").show();
-      }
-      var total = parseInt($("#total").text().substr(2));
-      
-      $("#pageOK").click(function() {
-        var pn = parseInt($("#pnum").val());
-        if (!isNaN(pn) && pn > 0 && pn <= total) {
-          window.location = location.pathname + "?s=" + pn;
-        } else {
-          alert("超出页范围或输入非数字！");
-        }
-      });
-    });
+  script(src='/javascripts/slidePager.js')
   include ../header.jade
   #units_index.container
     .row
-      .col-md-10.col-md-offset-1
+      .col-md-11.col-md-offset-1
+        include ../messages.jade
+        h2 浏览行政单元
         p 
-          a(href="./units_new" target="_blank")创建
+          a(href="/units/new?role=stu" target="_blank") 创建学生单元 | 
+          a(href="/units/new?role=tea" target="_blank") 创建教职工单元
         table.table.table-striped.table-hover
           tr
-            td 类别码
-            td 名字
-            td 状态
-            td 角色
-            td
-            td
+            td 单元编码
+            td 单元名称
+            td 审核状态
+            td 基本角色
+            td(colspan="3")
           each unit in units
             tr
-              td= unit.htcode
+              td(class="code")= unit.htcode
               td= unit.name
-              td= (unit.status)? '启用' : '禁用'
-              td= unit.role
-              td 
-                a(href="./units_edit") 编辑
-              td 
-                a(href="./units_delete") 删除
+              td(class="status-role")= (unit.status)? '已启用' : '已禁用'
+              td(class="status-role")= unit.role
+              td(class="link") 
+                a(href="./units/#{unit.id}/edit") 编辑
+              td(class="link")
+                form(method="POST" action="/units/#{unit.id}?_method=DELETE")
+                  button(class="delete" type="submit") 删除
+                  //a(class="delete" href="./units/#{unit.id}?_method=DELETE") 删除
+              td(class="link")
+                a(href="./units/#{unit.id}") 详细
     .row
-      .col-lg-8.unit-pager
-        !{pagesHTML}
-      .col-lg-2.page-num
+      .col-lg-3.page-num
         .input-group
           span.input-group-btn
             button(class="btn btn-default" type="button" id="pageOK") Go
           input(type="text" class="form-control" id="pnum" value="#{curPage}")
           span.input-group-addon(id="total") / #{total}
-          
-    
+      .col-lg-8.unit-pager
+        !{pagesHTML}  

@@ -1,59 +1,46 @@
-//学院（四级）
-/*
-var colleges = [
-  { code: '01', name: '英东生命科学学院' },
-  { code: '02', name: '英东农业科学与工程学院' },
-  { code: '03', name: '英东食品科学与工程学院' },
-  { code: '04', name: '物理与机电工程学院' },
-  { code: '05', name: '信息科学与工程学院' },
-];
-//年级（五级）
-var grades = [
-  { code: '2012', name: '2012级'},
-  { code: '2013', name: '2013级'},
-  { code: '2014', name: '2014级'},
-  { code: '2015', name: '2015级'}
-];
-//专业（六级）
-var majors = [
-  { pcode: '05', code: '01', name: '计算机科学技术'},
-  { pcode: '05', code: '02', name: '通信工程'},
-  { pcode: '05', code: '03', name: '信息管理'}
-];
-//班级（七级）
-var stuclass = [
-  { code: '01', name: '1班'},
-  { code: '02', name: '2班'},
-  { code: '03', name: '3班'},
-  { code: '04', name: '4班'},
-  { code: '05', name: 'A班'},
-  { code: '06', name: 'B班'},
-];
-*/
+/****** ============学生下拉框============ ******/
 $(function() {
-  $('#college').append('<option value="">---- 请选择 ----</option>');
+  $('#college').append('<option value="">--- 请选择所属二级学院 ---</option>');
+  //填充学院下拉列表
   $.each(colleges, function(n, college) {
     $('#college').append('<option value=' + college.code + '>' + college.name+'</option>');    
   });
-  
-  $('#grade').append('<option value="">--请选择--</option>');
+  //填充年级下拉列表
+  $('#grade').append('<option value="">--- 请选择所属年级 ---</option>');
   $.each(grades, function(n, grade) {
     $('#grade').append('<option value=' + grade.code + '>' + grade.name + '</option>');    
   });
   
-  //$('#grade').width(40);
-  //$('#stuclass').width(20);
-  $('#major').append('<option value="">--- 请选择 ---</option>');
-  $('#stuclass').append('<option value="">-请选择-</option>');
+  $('#major').append('<option value="">--- 请选择所属专业 ---</option>');
+  //填充班级下拉列表
+  $('#stuclass').append('<option value="">--- 请选择所属班级 ---</option>');
   $.each(stuclass, function(n, group) {
     $('#stuclass').append('<option value=' + group.code + '>' + group.name + '</option>');    
   });
-  
+
+  //对编辑表单做预选处理
+  if ($(".container").attr("id") == "units_edit") {
+    var codes = $("#unit-code").val().split("-"),
+        collegeCode = codes[3],
+        gradeCode = codes[4],
+        majorCode = codes[5],
+        groupCode = codes[6];
+    $('#college option[value="'+ collegeCode + '"]').prop("selected", true);
+    initMajor(collegeCode);
+    $('#grade option[value="'+ gradeCode + '"]').prop("selected", true);
+    $('#major option[value="'+ majorCode + '"]').prop("selected", true);
+    $('#stuclass option[value="'+ groupCode + '"]').prop("selected", true);
+    //alert(majorCode);
+  }
+  //捕捉学院下拉列表的change事件，并根据其值填充关联的专业下拉列表
   $('#college').change(function(){
+    var code = $(':selected',this).val(),
+        temp = $("#unit-code").val().split('-');
     $('#major').empty();
-    $('#major').append('<option value="">--- 请选择 ---</option>');
-    var code = $(':selected',this).val();
-    $('span.college').html('-'+ code);
+    $('#major').append('<option value="">--- 请选择所属专业 ---</option>');
+    temp[3] = code;
+    $("#unit-code").val(temp.join('-'));
+
     $.each(majors, function(n, major) {
       if (major.pcode == code) {
         $('#major').append('<option value=' + major.code + '>' + major.name + '</option>');    
@@ -61,24 +48,41 @@ $(function() {
     });
     $('option[value=""]',this).remove();
   });
-  
+  //捕捉年级下拉列表的change事件
   $('#grade').change(function() {
-    var code = $(':selected', this).val();
-    $('span.grade').html('-'+ code);
+    var code = $(':selected', this).val(),
+        temp = $("#unit-code").val().split('-');
+    temp[4] = code;
+    $("#unit-code").val(temp.join('-'));
     $('option[value=""]',this).remove();
   });
-  
+  //捕捉专业下拉列表的change事件
   $('#major').change(function() {
-    var code = $(':selected',this).val();
-    $('span.major').html('-'+ code);
+    var code = $(':selected',this).val(),
+        temp = $("#unit-code").val().split('-');
+    temp[5] = code;
+    $("#unit-code").val(temp.join('-'));
     $('option[value=""]',this).remove();
   });
-  
+  //捕捉班级下拉列表的change事件
   $('#stuclass').change(function() {
-    var code = $(':selected', this).val();
-    $('span.stuclass').html('-'+ code);
+    var code = $(':selected', this).val(),
+        temp = $("#unit-code").val().split('-');
+    temp[6] = code;
+    $("#unit-code").val(temp.join('-'));
     $('option[value=""]',this).remove();
   });
-  
+
 });
 
+function initMajor(code) {
+  $('#major').empty();
+  $('#major').append('<option value="">--- 请选择专业 ---</option>');
+  $.each(majors, function(n, major) {
+    if (major.pcode == code) {
+      $('#major').append('<option value=' + major.code + '>' + major.name + '</option>');    
+    } 
+  });
+}
+
+/****** ============学生下拉框结束============ ******/

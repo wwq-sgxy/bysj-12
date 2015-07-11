@@ -1,7 +1,9 @@
 var express = require('express');
-//var User = require('../models/user');   //加载User模型
 var router = express.Router();
+var tables = require('../../models/tabled.js'); //加载模型定义
+var cs = require('../../models/share.js');      //加载共享函数
 
+var Unit = tables.User;   //用户表模型
 /* 应该在这里实现users表的RESTful操作 */
 //下面是针对/users路径的get方法请求
 //index动作
@@ -31,7 +33,24 @@ router.get('/:id', function(req, res) {
 //下面是针对/users/:id/edit路径的get方法请求
 //edit动作
 router.get('/:id/edit', function(req, res) {
-  res.send('这里应获取编辑表单，编辑ID为'+req.params.id+'的记录');
+  var id=req.params.id;
+  
+  User.findOne({
+    where:{numid:id},
+    attributes:['numid','name','pass','unitid','astatus','cidset']
+  }).then(function(user){
+    if(!user){
+      res.render('tips',{
+        info:"不存在这样的记录！"
+      });
+    }
+    res.render('users/users_edit',{
+      title:'编辑用户表单',
+      user:user,
+      sess:req.session
+    });
+  });
+  //res.send('这里应获取编辑表单，编辑ID为'+req.params.id+'的记录');
 });
 
 //下面是针对/users/:id路径的put或patch方法请求，

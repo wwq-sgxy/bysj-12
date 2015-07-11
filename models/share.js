@@ -1,33 +1,51 @@
+/*
+  * 将数据库时间（UTC）转换成本地时间
+  * @param：options 一个对象。
+  * options的属性：
+  *   dbtime：来自数据库的日期时间
+  *   tz: 时区，设置为8代表中国时区
+*/
 exports.dbTimeToLocaltime = function (options) {
   var localTime = new Date();
   localTime.setTime(options['dbtime'].getTime() + options.tz*3600*1000);
-  return localTime;
+  var ret = localTime.getFullYear() + "年";
+  ret += (localTime.getMonth() + 1) + "月";
+  ret += localTime.getDate() + "日 ";
+  ret += localTime.getHours() + ":";
+  ret += localTime.getMinutes();
+  return ret;
 };
 
-exports.makePager = function (total,curPage,pageSize) {
+/*
+  * 生成一个通用的分页器Html
+  * @param：total int 欲显示的总记录数
+  * @param：curPage int 当前要显示的页码
+  * @param：pageSize int 每页的大小
+*/
+exports.makePager = function (total, curPage, pageSize) {
 	var pagerHtml = '';
 	var pages = (total > pageSize) ? Math.ceil(total/pageSize) : 1;
 	//要排除不在有效范围的curPage
-	curPage = (curPage <= 0 || curPage > pages) ? 1 : curPage;
+	var cPage = (curPage <= 0 || curPage > pages) ? 1 : curPage;
 	
 	if (pages > 1) {
 		pagerHtml += '<nav class="pagination form-group"><ul class="pagination">'; 
-		if (curPage != 1) {
+		if (cPage != 1) {
 			pagerHtml += '<li class="prev previous_page ">';
-			pagerHtml += '<a rel="prev start" href="?s=' + (curPage - 1) + '">&#8592; 前一页 </a></li>';
+			pagerHtml += '<a rel="prev start" href="?s=' + (cPage - 1) + '">&#8592; 前一页 </a></li>';
 		} else {
 			pagerHtml += '<li class="prev previous_page disabled"><a href="#">&#8592; 前一页</a></li>';
 		}
 		for(var i = 1; i <= pages; i++) {
-			if (i != curPage) {
+			if (i != cPage) {
 				pagerHtml += '<li><a href="?s=' + i + '"> ' + i + ' </a></li>';
 			} else {
 				pagerHtml += '<li class="active"><a rel="start" href="#">' + i + '</a></li>';
 			}
 		}
-		if (curPage != pages) {
+		if (cPage != pages) {
 			pagerHtml += '<li class="next next_page ">';
-			pagerHtml += '<a rel="next" href="?s=' + (curPage + 1) + '">下一页 &#8594;</a></li>';
+			pagerHtml += '<a rel="next" href="?s=' + (cPage + 1) + '">下一页 &#8594;</a></li>';
 		} else {
 			pagerHtml += '<li class="next next_page disabled"><a href="#">下一页 &#8594;</a></li>';
 		}

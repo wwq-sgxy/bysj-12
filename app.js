@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');    //载入cookie-parser模块
 var session = require('express-session');       //载入express-session模块
 var RedisStore = require('connect-redis')(session); //载入connect-redis模块
 var bodyParser = require('body-parser');        //载入body-parser模块
+var methodOverride = require('method-override');
 
 //var tables = require('./models/tabled.js');  //表定义
 var routes = require('./routes/main/index');   //载入根路由
@@ -24,6 +25,7 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));       //启用日志中间件
 app.use(bodyParser.json());   //启用请求体json解析中间件
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
 app.use(cookieParser());      //启用cookie中间件
 app.use(session({
     store: new RedisStore(),
@@ -56,7 +58,8 @@ if (app.get('env') === 'development') {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
-      error: err
+      error: err,
+      method: req.method + ":" + req.originalMethod
     });
   });
 }
