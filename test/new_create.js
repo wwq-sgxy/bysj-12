@@ -3,18 +3,18 @@ var db = require('../models/dbc.js');
 var Unit = require('../models/tabled.js').Unit;
 
 
-// Unit.sync().then(function () {
-//   return Unit.create({
-//     htcode: '10576-1223', 
-//     name: '测试管理员', 
-//     status: true,
-//     role: '测试管理员'
-//   }).then( function(result){
-//     console.log(result);
-//   }).catch(function(err){
-//     console.log(err);
-//   }); 
-// });
+Unit.sync().then(function () {
+  return Unit.create({
+    htcode: '10576-1223', 
+    name: '测试管理员', 
+    status: true,
+    role: '测试管理员'
+  }).then( function(result){
+    console.log(result);
+  }).catch(function(err){
+    console.log(err);
+  }); 
+});
 
 
 var htcode='10576-02-01-05-05', 
@@ -23,7 +23,6 @@ var htcode='10576-02-01-05-05',
     role= '老师';
 debugger;
 Unit.findOrCreate({
-  
   where : {
     htcode: htcode, 
     name: name, 
@@ -31,9 +30,7 @@ Unit.findOrCreate({
     role: role
   }
   }).spread(function(unit,created){
-    debugger;
     console.log(created);
-    
 });
 
 

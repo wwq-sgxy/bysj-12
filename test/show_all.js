@@ -1,15 +1,14 @@
 var Sequelize = require('sequelize');
 var tables = require('../models/tabled.js');
 
-var Unit = tables.Unit;
-User.findAll(
+var User = tables.User;
+var id='sysadm2';
+User.findOne(
   {
+    where:{numid:id},
     attributes: ['numid', 'name', 'pass']
-  }).then(function(units){
-    
-    for(var i = 0; i < units.length; i++){
-      console.log(units[i].dataValues.htcode+units[i].dataValues.name+units[i].dataValues.status +units[i].dataValues.role);
-    }
+  }).then(function(users){
+    console.log(users);
 }).catch(function(err){
   console.log(err);
 });
