@@ -9,7 +9,7 @@ var Unit = tables.Unit;   //行政单元表模型
 //index动作
 router.get('/', function(req, res) {
   var currentPage = 1,
-      pageSize = 4,       //这里应该从配置文件取
+      pageSize = 10,       //这里应该从配置文件取
       pagesHTML = '',     //要生成的分页器
       pages = 0;          //总页数
 
@@ -28,6 +28,7 @@ router.get('/', function(req, res) {
   Unit.findAll({
     offset: (currentPage - 1 ) * pageSize,
     limit: pageSize,
+    order: 'htcode ASC',
     attributes: ['id', 'htcode', 'name', 'status','role']
   }).then(function(units){
     res.render('units/units_all', { 
@@ -61,27 +62,31 @@ router.get('/new', function(req, res) {
 //下面是针对/users路径的post方法请求
 //create动作
 router.post('/', function(req, res) {
-  // res.send('这里应处理new表单提交的数据，然后创建新纪录');
-      
+  var htcode = req.body.htcode,
+      name = req.body.name,
+      role = (htcode.substr(6,2) == '01')? '学生' : '教职工';
+ 
   Unit.findOrCreate({
     where : {
-      htcode: req.body.htcode
+      htcode: htcode
     },
     defaults: {
-      name: req.body.name, 
-      status: req.body.status,
-      role: req.body.role
+      name: name,
+      role: role
     }
   }).spread(function(unit,created){
-    if(created){
-      res.send('ok');
+    if (created) {
+      req.flash("创建成功！");
     }else{
-      res.send('exists');
+      req.flash("此单元已存在！");
     }
+    res.redirect('back');
   }).catch(function(err){
     console.log(JSON.stringify(err));
-    res.send('false');
+    req.flash("系统出错！");
+    res.redirect('back');
   });
+
 });
 
 //下面是针对/users/:id路径的get方法请求，
@@ -129,7 +134,6 @@ router.get('/:id/edit', function(req, res) {
       });
     }
     role = (unit.htcode.substr(6,2) == "01") ? "stu" : "tea"; 
-    //res.render('units/units_edit_' + role, { 
     res.render('units/units_edit', { 
         title: '编辑行政单元', 
         unit: unit,
@@ -142,23 +146,38 @@ router.get('/:id/edit', function(req, res) {
 //下面是针对/users/:id路径的put或patch方法请求，
 //update动作
 router.put('/:id', function(req, res) {
-  var id = req.params.id;
-  var values = req.body;
+  var htcode = req.body.htcode,
+      name = req.body.name,
+      status = (req.body.status == "01")? "true" : "false",
+      id = req.params.id;
 
-  req.flash("更新成功！记录ID为：" + id);
-  res.redirect('back');
-/*
-  Unit.update(
-    values, { 
-      where: {id: id} 
-   }).then(function(r){
-       res.redirect('/:' + req.params.id);
-   }).catch(function(err){
-      req.flash("修改失败！");
-      //req.flash("账号不能为空！");
+  Unit.findOne({
+    where: {htcode: htcode}
+  }).then(function(unit) {
+    if (unit && unit.id != id) {
+      req.flash("此单元编码已存在！");
       res.redirect('back');
-   });
-*/
+    } else {
+      Unit.update({
+        htcode: htcode,
+        name: name,
+        status: status,
+        updatedAt: new Date()
+      }, {
+        where: {id: id} 
+      }).then(function(r){
+        req.flash("更新成功！");
+        res.redirect('/units/' + id);
+      }).catch(function(){
+          req.flash("更新失败！");
+          res.redirect('back');
+      });
+    }
+  }).catch(function(){
+    req.flash("系统错误操作失败！");
+    res.redirect('back');
+  });
+
 });
 
 //下面是针对/users/:id路径的delete方法请求，
@@ -168,11 +187,17 @@ router.delete('/:id', function(req, res) {
 
   Unit.destroy({
     where:{id : id}
-  }).then(function() {
-    req.flash("成功删除 ID 为：" + id + "的记录！");
-    res.redirect('/units');  
-  }).catch(function(err){
-    console.log(err);
+  }).then(function(ret) {
+    if (ret) {
+      req.flash("删除成功！");
+      res.redirect('/units');  
+    } else {
+      req.flash("找不到要删除的记录！");
+      res.redirect('back');
+    }
+  }).catch(function(){
+    req.flash("系统错误！请稍后再试");
+    res.redirect('back');
   });
 
 });

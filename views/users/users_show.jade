@@ -11,19 +11,32 @@ block content
           table.table.table-striped.table-hover
             tr
               td 唯一性身份ID
-              td=user.numid
+              td= user.numid
             tr
               td 姓名
-              td=user.name
+              td= user.name
             tr
               td 密码
-              td=user.pass
+              td= user.pass
             tr
               td 行政单元ID
-              td=user.unitid
+              td= user.unitid
             tr
               td 审核状态
-              td=user.astatus
+              td= (user.astatus)? '已启用' : '禁用或审核中'
             tr
               td 社团ID集合
-              td=user.cidset
+              td= user.cidset
+            tr
+              td 创建时间
+              td= user.createdTime
+            tr
+              td 更新时间
+              td= user.updatedTime
+        .panel-footer
+          a(title="显示全部用户",href="/users")
+            button.button.button-large.button-primary.button-border.button-circle
+              i.fa.fa-reply Back
+          a.pull-right(title="编辑",href="/users/#{user.id}/edit")
+            button.button.button-large.button-primary.button-border.button-circle
+              span.glyphicon.glyphicon-pencil

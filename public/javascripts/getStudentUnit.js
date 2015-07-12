@@ -73,6 +73,21 @@ $(function() {
     $('option[value=""]',this).remove();
   });
 
+  $('#UnitForm').submit(function(){
+    var htcode = $('#unit-code').val(),
+        name = $('#college option:selected').text() + '-' +
+               $('#grade option:selected').text() + '-' +
+               $('#major option:selected').text() + '-' +
+               $('#stuclass option:selected').text();
+    if (htcode.match("x")) {
+      alert("输入不完整！");
+      return false;
+    }
+    $('input#htcode').val(htcode);
+    $('input#name').val(name);
+    return true;
+  });
+
 });
 
 function initMajor(code) {

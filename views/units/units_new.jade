@@ -16,7 +16,9 @@ block content
       .panel-heading
         h3.panel-title #{caption}
       .panel-body
-        form#UnitForm.form-horizontal(method="post" action="")
+        form#UnitForm.form-horizontal(method="post" action="/units")
+          input(type="hidden" value="" id="htcode" name="htcode")
+          input(type="hidden" value="" id="name" name="name")
           include ../messages.jade
           .form-group
             .input-group

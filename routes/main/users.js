@@ -3,7 +3,7 @@ var router = express.Router();
 var tables = require('../../models/tabled.js'); //加载模型定义
 var cs = require('../../models/share.js');      //加载共享函数
 
-var Unit = tables.User;   //用户表模型
+var User = tables.User;   //用户表模型
 /* 应该在这里实现users表的RESTful操作 */
 //下面是针对/users路径的get方法请求
 //index动作
@@ -56,7 +56,22 @@ router.get('/:id/edit', function(req, res) {
 //下面是针对/users/:id路径的put或patch方法请求，
 //update动作
 router.put('/:id', function(req, res) {
-  res.send('这里应处理编辑表单提交的数据，然后更新ID为'+req.params.id+'的记录');
+  var id=req.params.id;
+  var values=JSON.stringify(req.body);
+  
+  User.update(
+    values, {
+      where:{numid:id}
+    }).then(function(user){
+      req.flash("更新成功!记录ID为:"+ id + '\n' +values);
+      res.redirect('back');
+    }).catch(function(){
+      req.flash("更新失败！");
+      res.redirect('back');
+    });
+    
+
+  //res.send('这里应处理编辑表单提交的数据，然后更新ID为'+req.params.id+'的记录');
 });
 
 //下面是针对/users/:id路径的delete方法请求，

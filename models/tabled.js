@@ -26,21 +26,15 @@ var Unit = db.sequelize.define('unit', {
         args: [true],
         msg: '行政单元的对应名称不能设置为空字符串'
       }*/
-      is: {
-        args: [/^([0-9\u4e00-\u9fa5]+\-)*[\u4e00-\u9fa5]+$/],
-        msg: '行政单元的对应名称格式需为中文加-，且需以中文开头结束'
-      }
+      //is: {
+      //  args: [/^([0-9\u4e00-\u9fa5]+\-)*[\u4e00-\u9fa5]+$/],
+      //  msg: '行政单元的对应名称格式需为中文加-，且需以中文开头结束'
+      //}
     }
   },
   status: {
     type: Sequelize.BOOLEAN,
-    /*validate: {
-      isIn: {
-        args: [[true, false]],
-        msg:  'status只能为true或false'
-      }
-    }*/
-    defaultValue: true
+    defaultValue: false
   },
   role: {
     type: Sequelize.STRING,
@@ -67,12 +61,15 @@ var User = db.sequelize.define('user',
   {
     numid: {
       type: Sequelize.STRING,
-      unique: true
-      //validate: {
-      //  is: /^\d{12}$/
-      //}
+      unique: true,
+      validate: {
+        is: /^\d{5}(\d{7})?$/
+      }
     },
-    name: Sequelize.STRING,
+    name: {
+      type: Sequelize.STRING,
+      
+    },
     pass: Sequelize.CHAR(40),
     unitid: {
       type: Sequelize.INTEGER,

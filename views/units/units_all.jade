@@ -25,11 +25,13 @@ block content
               td= unit.name
               td(class="status-role")= (unit.status)? '已启用' : '已禁用'
               td(class="status-role")= unit.role
-              td(class="link") 
-                a(href="./units/#{unit.id}/edit") 编辑
+              td(class="link")
+                a(class="edit button button-primary button-border button-square" href="./units/#{unit.id}/edit")
+                  span(class="glyphicon glyphicon-pencil")
               td(class="link")
                 form(method="POST" action="/units/#{unit.id}?_method=DELETE")
-                  button(class="delete" type="submit") 删除
+                  button(class="delete button button-primary button-border button-square" type="submit") 
+                    span(class="glyphicon glyphicon-trash" aria-hidden="true")
                   //a(class="delete" href="./units/#{unit.id}?_method=DELETE") 删除
               td(class="link")
                 a(href="./units/#{unit.id}") 详细
