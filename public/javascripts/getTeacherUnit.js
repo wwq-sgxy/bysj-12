@@ -11,10 +11,10 @@ $(function() {
     $('#divsion').append('<option value="">---- 请选择院系附属 ----</option>');  
   }
   
-  //对编辑表单做预选处理
-  if ($(".container").attr("id") == "units_edit") {
-    var codes = $("#unit-code").val().split("-"),
-        institutionCode = codes[2],
+  //对new表单和编辑表单做预选处理
+  var codes = $("#unit-code").val().split("-");
+  if (codes[2] != "xx") {
+    var institutionCode = codes[2],
         departmentCode = codes[3],
         divsionCode = codes[4];
     
@@ -66,11 +66,10 @@ $(function() {
     
     $('option[value=""]',this).remove();
   });
-  
+  //提交创建新教职工单元
   $('#UnitForm').submit(function(){
     var htcode = $('#unit-code').val(),
-        name = $('#institutions option:selected').text() + '-' +
-               $('#departments option:selected').text() + '-' +
+        name = "韶关学院" + '-' + $('#departments option:selected').text() + '-' +
                $('#divsion option:selected').text();
     
     if (htcode.match("x")) {

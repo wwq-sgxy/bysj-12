@@ -1,0 +1,67 @@
+//本页面展示user表的所有记录
+//表头有“筛选”下拉按钮，筛选“全部”、“审核通过”、“审核失败”、“未审核”的用户
+//点击每行后的“展开”按钮可获得相应的功能按钮
+//@import button.css
+//@import collapse.js
+//@import style.less #users_all{}
+extends ../layout
+
+block content
+  
+    include ../header.jade
+    #users_all.container
+      .row
+        .col-md-10.col-md-offset-1
+          .panel.panel-primary
+            .panel-heading
+              .panel-title.pull-left
+                浏览用户
+                // 筛选框start
+              .select-box.pull-right
+                  form(method='post')
+                    select(name='select-box')
+                      option(value='全部') 全部
+                      option(value='未审核') 未审核
+                      option(value='审核通过') 审核通过
+                      option(value='审核失败') 审核失败
+                // 筛选框end
+              .clearfix
+            // panel-body面板内容tart
+            .panel-body
+              // 使用table，每一行为一个user的信息
+              table.table.table-striped.table-hover
+                // table的th表头内容start
+                tr
+                  th.info
+                    .user_row
+                      .row_heading
+                        span.user_id.col-xs-12.col-sm-6.col-md-2 用户ID
+                        span.user_name.col-xs-12.col-sm-6.col-md-2 姓名
+                        span.unit.col-xs-12.col-sm-6.col-md-5 所属行政单元
+                        span.status.col-md-2 审核状态
+                // table的th表头内容end
+                // 一行user的内容start
+                //！！！！！！！！需要一条条地调用user表的内容！！！！！！！！！！！！！
+                //user in users
+                tr
+                  td
+                    .user-row
+                      .row-heading
+                        //！！！！加载信息！！！！！！
+                        span.user-id.col-xs-12.col-sm-6.col-md-2 12112345456
+                        span.user-name.col-xs-12.col-sm-6.col-md-2 张三
+                        span.unit.col-xs-12.col-sm-6.col-md-5 信息科学与工程学院2012计算机科学与技术01班
+                        span.status.col-md-2 未审核
+                        a(role='button', data-toggle='collapse', href='#details1', aria-expanded='false', aria-controls='details1')
+                          span.glyphicon.glyphicon-chevron-down
+                      // 隐藏的内容start
+                      #details1.collapse.col-md-8.col-md-offset-2
+                        //按钮组
+                        .btn-group
+                          //如果未审核，则显示“通过”/“不通过”按钮
+                          //if(status == 0) 
+                          button.button.button-rounded.button-highlight.add-margin(type='button') 通过
+                          button.button.button-rounded.button-caution.add-margin(type='button') 不通过
+                          //否则，应只显示“详细信息”和“删除”按钮
+                          button.button.button-border.button-rounded.button-primary.add-margin(type='button') 详细信息
+                          button.button.button-border.button-rounded.button-primary.add-margin(type='button') 删除用户

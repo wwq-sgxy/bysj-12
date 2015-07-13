@@ -17,11 +17,11 @@ $(function() {
   $.each(stuclass, function(n, group) {
     $('#stuclass').append('<option value=' + group.code + '>' + group.name + '</option>');    
   });
-
-  //对编辑表单做预选处理
-  if ($(".container").attr("id") == "units_edit") {
-    var codes = $("#unit-code").val().split("-"),
-        collegeCode = codes[3],
+  
+  //对new表单和编辑表单做预选处理
+  var codes = $("#unit-code").val().split("-");
+  if (codes[3] != "xx") {
+    var collegeCode = codes[3],
         gradeCode = codes[4],
         majorCode = codes[5],
         groupCode = codes[6];
@@ -72,10 +72,10 @@ $(function() {
     $("#unit-code").val(temp.join('-'));
     $('option[value=""]',this).remove();
   });
-
+  //提交创建新学生单元
   $('#UnitForm').submit(function(){
     var htcode = $('#unit-code').val(),
-        name = $('#college option:selected').text() + '-' +
+        name = "韶关学院" + '-' + $('#college option:selected').text() + '-' +
                $('#grade option:selected').text() + '-' +
                $('#major option:selected').text() + '-' +
                $('#stuclass option:selected').text();

@@ -1,0 +1,10 @@
+extends ../layout
+block content
+  - var caption = (role == 'stu')? '编辑学生用户表' : '编辑教职工用户表'
+
+  if role == 'stu'
+    script(src='/users_student.js')
+    script(src='/javascripts/getStudentUser.js')
+  else
+    script(src='/users_teacher.js')
+    script(src='/javascripts/getTeacherUser.js')

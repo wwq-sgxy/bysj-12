@@ -24,11 +24,11 @@ var colleges = [
 
 //专业（六级）
 var majors = [
-  { pcode: '05', code: '01', name: '计算机科学技术'},
-  { pcode: '05', code: '02', name: '通信工程'},
-  { pcode: '05', code: '03', name: '信息管理'},
-  { pcode: '05', code: '04', name: '物联网'},
-  { pcode: '05', code: '05', name: '软件工程'}
+  { pcode: '05', code: '01', name: '计算机科学技术专业'},
+  { pcode: '05', code: '02', name: '通信工程专业'},
+  { pcode: '05', code: '03', name: '信息管理专业'},
+  { pcode: '05', code: '04', name: '物联网专业'},
+  { pcode: '05', code: '05', name: '软件工程专业'}
 ];
 
 //年级（五级）

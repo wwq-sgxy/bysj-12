@@ -48,14 +48,19 @@ router.get('/', function(req, res) {
 //下面是针对/users/new路径的get方法请求，
 //new动作
 router.get('/new', function(req, res) {
-  var role = 'stu';
+  var role = 'stu',
+    //unit = {};
+      unit = Unit.build({});
+  
   if(typeof(req.query.role) !== 'undefined' && req.query.role === 'tea') {
     role = 'tea';
   }
+
   res.render('units/units_new', {
     title: '创建行政单元',
     sess: req.session,
-    role: role
+    role: role,
+    unit: unit
   });
 });
 
@@ -77,8 +82,10 @@ router.post('/', function(req, res) {
   }).spread(function(unit,created){
     if (created) {
       req.flash("创建成功！");
+      req.flash(htcode);
     }else{
       req.flash("此单元已存在！");
+      req.flash(htcode);
     }
     res.redirect('back');
   }).catch(function(err){

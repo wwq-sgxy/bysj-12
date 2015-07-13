@@ -1,7 +1,7 @@
 //此文件用于定义数据库模型并同步到数据库
 //表单参数的验证在定义时完成
 var Sequelize = require('sequelize');
-var db = require('./dbc.js');
+var db = require('./dbc_for_test.js');
 
 //定义Unit模型
 var Unit = db.sequelize.define('unit', {
@@ -34,15 +34,15 @@ var Unit = db.sequelize.define('unit', {
   },
   status: {
     type: Sequelize.BOOLEAN,
-    validate: {
-      isIn: [[true, false]]
-    },
     defaultValue: false
   },
   role: {
     type: Sequelize.STRING,
     validate: {
-      isIn: [['学生', '教职工']]
+      isIn: {
+        args: [['学生', '教职工']],
+        msg: "角色必须是【学生】或【教职工】"
+      }
     }
   }
   },

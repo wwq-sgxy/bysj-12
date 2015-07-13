@@ -3,6 +3,7 @@ extends ../layout
 
 block content
   script(src='/javascripts/slidePager.js')
+
   include ../header.jade
   #units_index.container
     .row
@@ -26,15 +27,15 @@ block content
               td(class="status-role")= (unit.status)? '已启用' : '已禁用'
               td(class="status-role")= unit.role
               td(class="link")
-                a(class="edit button button-primary button-border button-square" href="./units/#{unit.id}/edit")
+                a(class="edit btn" href="./units/#{unit.id}/edit")
                   span(class="glyphicon glyphicon-pencil")
               td(class="link")
                 form(method="POST" action="/units/#{unit.id}?_method=DELETE")
-                  button(class="delete button button-primary button-border button-square" type="submit") 
+                  button(class="delete btn" type="submit") 
                     span(class="glyphicon glyphicon-trash" aria-hidden="true")
-                  //a(class="delete" href="./units/#{unit.id}?_method=DELETE") 删除
               td(class="link")
-                a(href="./units/#{unit.id}") 详细
+                a(href="./units/#{unit.id}" class="show btn") 
+                  span(class="glyphicon glyphicon-list-alt")
     .row
       .col-lg-3.page-num
         .input-group

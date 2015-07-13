@@ -3,10 +3,13 @@ var tables = require('../models/tabled.js');
 
 var User = tables.User;
 var id='sysadm2';
-User.findOne(
+User.findAll(
   {
-    where:{numid:id},
-    attributes: ['numid', 'name', 'pass']
+    order: 'numid ASC ',
+      
+    
+    //where:{numid:id},
+    //attributes: ['numid', 'name', 'pass']
   }).then(function(users){
     console.log(users);
 }).catch(function(err){

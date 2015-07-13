@@ -2,8 +2,9 @@ var Sequelize = require('sequelize');
 var tables = require('../models/tabled.js');
 
 var Unit = tables.Unit;
+var User = tables.User;
 var htcode = '10576-01-01-05-2012-01-01';
-Unit.findOne({
+/*Unit.findOne({
     where:{htcode:htcode},
    // attributes:['htcode','name','status','role']
 }).then(function(unit){
@@ -11,8 +12,14 @@ Unit.findOne({
     console.log(unit);
 }).catch(function(err){
   console.log(err);
-});
+});*/
 
+User.findOne({
+}).then(function(user){
+    console.log(user);
+}).catch(function(err){
+    console.log(err);
+});
 
 // Unit.destroy({
 //     where:{htcode:htcode}

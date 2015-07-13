@@ -1,9 +1,9 @@
 var Sequelize = require('sequelize');
 var db = require('../models/dbc.js');
 var Unit = require('../models/tabled.js').Unit;
+console.log(typeof(Unit));
 
-
-Unit.sync().then(function () {
+/*Unit.sync().then(function () {
   return Unit.create({
     htcode: '10576-1223', 
     name: '测试管理员', 
@@ -32,7 +32,7 @@ Unit.findOrCreate({
   }).spread(function(unit,created){
     console.log(created);
 });
-
+*/
 
 
 
