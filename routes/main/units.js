@@ -49,7 +49,6 @@ router.get('/', function(req, res) {
 //new动作
 router.get('/new', function(req, res) {
   var role = 'stu',
-    //unit = {};
       unit = Unit.build({});
   
   if(typeof(req.query.role) !== 'undefined' && req.query.role === 'tea') {
@@ -69,7 +68,8 @@ router.get('/new', function(req, res) {
 router.post('/', function(req, res) {
   var htcode = req.body.htcode,
       name = req.body.name,
-      role = (htcode.substr(6,2) == '01')? '学生' : '教职工';
+      role = req.body.role,
+      status = req.body.status;
  
   Unit.findOrCreate({
     where : {
@@ -77,21 +77,17 @@ router.post('/', function(req, res) {
     },
     defaults: {
       name: name,
-      role: role
+      role: role,
+      status: status
     }
   }).spread(function(unit,created){
     if (created) {
-      req.flash("创建成功！");
-      req.flash(htcode);
+      res.send({dStyle: 'alert-success', msg: '创建成功！'});
     }else{
-      req.flash("此单元已存在！");
-      req.flash(htcode);
+      res.send({dStyle: 'alert-warning', msg: '此单元已存在！'});
     }
-    res.redirect('back');
-  }).catch(function(err){
-    console.log(JSON.stringify(err));
-    req.flash("系统出错！");
-    res.redirect('back');
+  }).catch(function() {
+    res.send({dStyle: 'alert-info', msg: '系统出错！稍后再试'});
   });
 
 });

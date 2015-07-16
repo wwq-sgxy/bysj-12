@@ -1,4 +1,48 @@
 extends ../layout
 block content
-    include ./header.jade
-    
+  - var caption = (role == 'stu')? '学生注册' : '教职工注册'
+  - var initcode = (role == 'stu')? '10576-01-01-xx-xxxx-xx-xx' : '10576-02-xx-xx-xx'
+  
+  if role == 'stu'
+    script(src='/units_student.js')
+    script(src='/javascripts/users/newStu.js')
+  else
+    script(src='/units_teacher.js')
+    script(src='/javascripts/users/newTea.js')
+  
+  include ../header.jade
+  #users_new.container  
+    .panel.panel-primary
+      .panel-heading
+        h3.panel-title.text-center #{caption}
+      .panel-body
+        form#addUserForm.form-horizontal(method='post', action='/users')
+          include ../messages.jade
+          input(id="unit-code" type="hidden" name="htcode" value="#{initcode}") 
+          .form-group.form-group-lg
+            input#name.form-control(type='text', name="numid" placeholder='请输入您的学号')
+          .form-group.form-group-lg
+            input#name.form-control(type='text', name="name" placeholder='请输入您的真实姓名')
+          .form-group.form-group-lg
+            input#Password.form-control(type='password', name="pass" placeholder='请输入密码')
+          .form-group.form-group-lg
+            input#Password.form-control(type='password', name="repass" placeholder='请再次输入密码')
+          .form-group.form-group-lg
+            p.form-control-static.bg-info 请选择您现在所属的班级信息
+            if role == 'stu'
+              select#college.form-control
+            else
+              select#institutions.form-control
+            if role == 'stu'
+              select#grade.form-control
+            else
+              select#departments.form-control
+            if role == 'stu'
+              select#major.form-control
+            else
+              select#divsion.form-control
+            if role == 'stu'
+              select#stuclass.form-control
+          .form-group
+            .btnok
+              input.button.button-glow.button-border.button-rounded.button-primary(type='submit' value="提交")

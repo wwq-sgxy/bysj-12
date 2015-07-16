@@ -3,40 +3,39 @@ extends ../layout
 
 block content
     include ../header.jade
-    #users_show.container
-      .panel.panel-info.col-sm-8.col-sm-offset-2
+    #users_show.container.col-sm-6.col-sm-offset-2
+      .panel.panel-info
         .panel-heading
           h3 用户详细信息
         .panel-body
           table.table.table-striped.table-hover
             tr
-              td 唯一性身份ID
+              td.col-sm-3 用户ID：
               td= user.numid
             tr
-              td 姓名
+              td 姓名：
               td= user.name
             tr
-              td 密码
-              td= user.pass
-            tr
-              td 行政单元ID
+              td 所属行政单元ID：
               td= user.unitid
             tr
-              td 审核状态
+              td 审核状态：
               td= (user.astatus)? '已启用' : '禁用或审核中'
             tr
-              td 社团ID集合
+              td 社团ID集合：
               td= user.cidset
             tr
-              td 创建时间
+              td 创建时间：
               td= user.createdTime
             tr
-              td 更新时间
+              td 更新时间：
               td= user.updatedTime
         .panel-footer
-          a(title="显示全部用户",href="/users")
-            button.button.button-large.button-primary.button-border.button-circle
-              i.fa.fa-reply Back
-          a.pull-right(title="编辑",href="/users/#{user.id}/edit")
-            button.button.button-large.button-primary.button-border.button-circle
-              span.glyphicon.glyphicon-pencil
+          a.button.button-primary.button-circle.button-giant.button-longshadow.button-small(data-toggle='collapse', href='#details1', aria-expanded='false', aria-controls='details1')
+            i.fa.fa-gear
+          #details1.collapse
+            .btn-group
+                a.col-sm-offset-2(title="显示全部用户",href="/users")
+                  button.button.button-3d.button-box.button-jumbo.button-small 全部
+                a.col-sm-offset-5(title="编辑",href="/users/#{user.id}/edit")
+                  button.button.button-3d.button-box.button-jumbo.button-small 编辑

@@ -1,0 +1,28 @@
+extends ../layout
+block content
+  script(src='/javascripts/AddRole.js')
+  include ../header
+  #roles_new.container.col-sm-6.col-sm-offset-3 
+    .panel.panel-primary
+      .panel-heading
+        h3.panel-title 创建角色
+      .panel-body
+        form#addRoleForm.form-horizontal(method="post" action="/roles")
+          .alert
+          .form-group
+            .input-group.col-sm-offset-1.col-sm-10
+              span.input-group-addon 角色名称
+              input#rolename.form-control(type="text" name="rolename")
+              span.input-group-addon 角色类型
+              select#roletype.form-control(name="roletype")
+                option(value="") ---选择角色所属类型---
+                option(value="系统维护") 系统维护
+                option(value="行政事务") 行政事务
+                option(value="社团事务") 社团事务
+          .form-group
+            textarea#roleintro.form-control(rows="3", name="roleintro", placeholder='请简要描述角色的职责等信息')
+          .form-group
+            .btnok
+              input.button.button-glow.button-border.button-rounded.button-primary.btn-lg(type="submit" value="提交")
+            p.link
+              a(href="/roles" target="_blank") 显示全部

@@ -1,25 +1,25 @@
 /****** ============学生下拉框============ ******/
 $(function() {
-  $(".alert","form#addUnitForm").hide();
+  //$(".alert","form#addUserForm").hide();
   
-  $('#college').append('<option value="">--- 请选择所属二级学院 ---</option>');
+  $('#college').append('<option value="">--- 所属二级学院 ---</option>');
   //填充学院下拉列表
   $.each(colleges, function(n, college) {
     $('#college').append('<option value=' + college.code + '>' + college.name+'</option>');    
   });
   //填充年级下拉列表
-  $('#grade').append('<option value="">--- 请选择所属年级 ---</option>');
+  $('#grade').append('<option value="">--- 所属年级 ---</option>');
   $.each(grades, function(n, grade) {
     $('#grade').append('<option value=' + grade.code + '>' + grade.name + '</option>');    
   });
   
-  $('#major').append('<option value="">--- 请选择所属专业 ---</option>');
+  $('#major').append('<option value="">--- 所属专业 ---</option>');
   //填充班级下拉列表
-  $('#stuclass').append('<option value="">--- 请选择所属班级 ---</option>');
+  $('#stuclass').append('<option value="">--- 所属班级 ---</option>');
   $.each(stuclass, function(n, group) {
     $('#stuclass').append('<option value=' + group.code + '>' + group.name + '</option>');    
   });
-  
+/*  
   //对new表单和编辑表单做预选处理
   var codes = $("#unit-code").val().split("-");
   if (codes[3] != "xx") {
@@ -34,6 +34,7 @@ $(function() {
     $('#stuclass option[value="'+ groupCode + '"]').prop("selected", true);
     //alert(majorCode);
   }
+*/
   //捕捉学院下拉列表的change事件，并根据其值填充关联的专业下拉列表
   $('#college').change(function(){
     var code = $(':selected',this).val(),
@@ -75,6 +76,7 @@ $(function() {
     $('option[value=""]',this).remove();
   });
   
+/*
   //以AJAX异步方式创建学生单元
   $('#addUnitForm').submit(function() {
     var htcode = $('#unit-code').val(),
@@ -102,28 +104,21 @@ $(function() {
 
     return false;
   });
-
-  //以表单方式更新学生单元
-  $('#editUnitForm').submit(function() {
-    var htcode = $('#unit-code').val(),
-        name = "韶关学院" + '-' + $('#college option:selected').text() + '-' +
-               $('#grade option:selected').text() + '-' +
-               $('#major option:selected').text() + '-' +
-               $('#stuclass option:selected').text();
+*/
+  //以表单方式创建学生用户
+  $('#addUserForm').submit(function() {
+    var htcode = $('#unit-code').val();
 
     if (htcode.match("x")) {
       alert("输入不完整！");
       return false;
     }
 
-    $("input#htcode").val(htcode);
-    $("input#name").val(name);
-    
     return true;
   });
 
 });
-
+/*
 function initMajor(code) {
   $('#major').empty();
   $('#major').append('<option value="">--- 请选择专业 ---</option>');
@@ -133,5 +128,5 @@ function initMajor(code) {
     } 
   });
 }
-
+*/
 /****** ============学生下拉框结束============ ******/

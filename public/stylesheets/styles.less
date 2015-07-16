@@ -84,7 +84,7 @@ body {
 }
 //以下样式适用于 units/new 和units/edit页面
 #units_new, #units_edit {
-  #UnitForm {
+  #addUnitForm, #editUnitForm {
     padding: 40px;
   }
   .panel {
@@ -138,7 +138,7 @@ body {
     display: inline-block;
   }
   .btn-group{
-    padding-top: 20px;
+    padding: 20px 0;
   }
   .add-margin{
      margin: 2px;
@@ -151,3 +151,59 @@ body {
     color: black;
   }
 }        
+
+//以下样式是用于 users_edit 页面
+#users_edit{
+  .form-group{
+    margin:25px;
+  }
+  .btnok{
+    text-align:center;
+  }
+  p.link{
+    text-align:center;
+  }
+}
+
+//以下样式是用于 users_new 页面
+#users_new{
+  #addUserForm {
+    padding: 40px;
+  }
+  .panel {
+    width: 50%;
+    margin-left: 25%;
+  }
+  .btnok {
+    text-align: center;
+    margin: 40px 0 10px 0;
+  }
+}
+
+//以下样式是用于 roles_new 页面
+#roles_new{
+  .form-group{
+    margin-bottom:25px;
+    textarea{
+      width:84%;
+      margin-left:52px;
+      resize:none;
+    }
+    .btnok{
+      margin-left:60%;
+      margin-bottom:10px;
+    }
+    p.link{
+      margin-left:65%;
+    }
+  }
+}
+
+//以下样式是用于 roles_all 页面
+#roles_all{
+  td{
+    button{
+      margin-left:20px;
+    }
+  }
+}

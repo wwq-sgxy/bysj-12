@@ -1,0 +1,31 @@
+extends ../layout
+block content
+  
+  include ../header
+  #roles_all.container
+    .col-lg-8.col-lg-offset-2
+      .panel.panel-primary
+        include ../messages.jade
+        .panel-heading
+          h1.panel-title 浏览角色表
+          p.col-lg-offset-11 
+            a(href="/roles/new" target="_blank") 创建角色
+        .panel-body
+          table.table.table-striped.table-hover
+            tr
+              td 角色类型
+              td 角色名称
+            each role in roles
+              tr
+                td(class="roletype")= role.roletype
+                td(class="rolename")= role.rolename
+                  a(type="button" class="btn" data-toggle="tooltip" data-placement="right" title= role.roleintro)
+                    span.glyphicon.glyphicon-eye-open
+          .col-lg-offset-1.col-lg-3.page-num
+            .input-group
+              span.input-group-btn
+                button(class="btn btn-default" type="button" id="pageOK") Go
+              input(type="text" class="form-control" id="pnum" value="#{curPage}")
+              span.input-group-addon(id="total") / #{total}
+          .col-lg-8.unit-pager
+            !{pagesHTML} 

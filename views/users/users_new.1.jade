@@ -1,0 +1,54 @@
+extends ../layout
+block content
+  - var caption = (role == 'stu')? '学生注册' : '教职工注册'
+  
+  if role == 'stu'
+    script(src='/units_student.js')
+    script(src='/javascripts/users/newStu.js')
+  else
+    script(src='/units_teacher.js')
+    script(src='/javascripts/users/newTea.js')
+  
+  include ../header.jade
+  #users_new.container.col-sm-6.col-sm-offset-2  
+    .panel.panel-primary
+      .panel-heading
+        h3.panel-title.text-center #{caption}
+      .panel-body
+        form.form-horizontal(method='post', action='/auth/login')
+          .form-group
+            //span(aria-hidden='true')
+            //label.col-sm-2.control-label(for='name') 证件号：
+            .col-sm-5.col-sm-offset-2
+              input#name.form-control(type='text', placeholder='请输入学号或工号')
+          .form-group
+            //span(aria-hidden='true')
+            //label.col-sm-2.control-label(for='name') 姓名：
+            .col-sm-5.col-sm-offset-2
+              input#name.form-control(type='text', placeholder='请输入用户名')
+          .form-group
+            //span(aria-hidden='true')
+            //label.col-sm-2.control-label(for='Password') 密码：
+            .col-sm-5.col-sm-offset-2
+              input#Password.form-control(type='password', placeholder='请输入密码')
+          .form-group
+            //span(aria-hidden='true')
+            //label.col-sm-2.control-label(for='Password') 确认密码：
+            .col-sm-5.col-sm-offset-2
+              input#Password.form-control(type='password', placeholder='请再次输入密码')
+          //.form-group
+          //  .input-group
+          //    span.input-group-addon 行政单元ID
+          //    input#unit-code.form-control(type='text', title='自动显示单元编码', value='10576-02-xx-xx-xx', disabled='')
+          .form-group
+            .col-sm-offset-2
+              .input-group
+                select#college.form-control
+                select#grade.form-control
+              .input-group
+                select#major.form-control
+              .input-group
+                select#stuclass.form-control
+          .form-group
+            .col-sm-3.col-sm-offset-4
+              button.button.button-glow.button-border.button-rounded.button-primary(type='submit') 创建

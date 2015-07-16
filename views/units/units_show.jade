@@ -2,36 +2,36 @@
 extends ../layout
 
 block content
-    include ../header.jade
-    #units_show.container
-      .panel.panel-info.col-sm-8.col-sm-offset-2
-        .panel-heading
-          h3 行政单元详细信息
-        .panel-body
-          table.table.table-striped.table-hover
-            tr
-              td(class="left") 单元编码
-              td= unit.htcode
-            tr
-              td(class="left") 单元名称
-              td= unit.name
-            tr
-              td(class="left") 基本角色
-              td= unit.role
-            tr
-              td(class="left") 审核状态
-              td= (unit.status)? '已启用' : '禁用或审核中'
-            tr
-              td(class="left") 创建时间
-              td= unit.createdTime
-            tr
-              td(class="left") 更新时间
-              td= unit.updatedTime
-        .panel-footer
-          a(title="显示全部单元",href="/units")
-            button.button.button-large.button-primary.button-border.button-circle
-              i.fa.fa-reply
-          a.pull-right(title="编辑",href="/units/#{unit.id}/edit")
-            button.button.button-large.button-primary.button-border.button-circle
-              span.glyphicon.glyphicon-pencil
-              
+  include ../header.jade
+  #units_show.container
+    .panel.panel-info
+      .panel-heading
+        h3 行政单元详细信息
+      .panel-body
+        include ../messages.jade
+        table.table.table-striped.table-hover
+          tr
+            td(class="left") 单元编码
+            td= unit.htcode
+          tr
+            td(class="left") 单元名称
+            td= unit.name
+          tr
+            td(class="left") 基本角色
+            td= unit.role
+          tr
+            td(class="left") 审核状态
+            td= (unit.status)? '已启用' : '已禁用'
+          tr
+            td(class="left") 创建时间
+            td= unit.createdTime
+          tr
+            td(class="left") 更新时间
+            td= unit.updatedTime
+      .panel-footer
+        a(title="显示全部单元",href="/units")
+          button.button.button-large.button-primary.button-border.button-circle
+            i.fa.fa-reply
+        a.pull-right(title="编辑",href="/units/#{unit.id}/edit")
+          button.button.button-large.button-primary.button-border.button-circle
+            span.glyphicon.glyphicon-pencil

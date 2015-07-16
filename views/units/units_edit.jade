@@ -15,7 +15,7 @@ block content
       .panel-heading
         h3.panel-title #{caption}
       .panel-body
-        form#UnitForm.form-horizontal(method="POST" action="/units/#{unit.id}?_method=PUT")
+        form#editUnitForm.form-horizontal(method="POST" action="/units/#{unit.id}?_method=PUT")
           input(type="hidden" value="" id="htcode" name="htcode")
           input(type="hidden" value="" id="name" name="name")
           include ../messages.jade

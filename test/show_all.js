@@ -3,11 +3,10 @@ var tables = require('../models/tabled.js');
 
 var User = tables.User;
 var id='sysadm2';
+var role;
 User.findAll(
   {
     order: 'numid ASC ',
-      
-    
     //where:{numid:id},
     //attributes: ['numid', 'name', 'pass']
   }).then(function(users){
@@ -16,11 +15,18 @@ User.findAll(
   console.log(err);
 });
 
-/*Unit.count().then(function(units){
-  var numPage=Math.ceil(units/10);
-  console.log(numPage);
-}).catch(function(err){
-  console.log(err);
-});
-*/
+      //role;
+  /*User.findOne({
+    where:{numid:id},
+    attributes:['id','numid','name','pass','unitid','astatus','cidset']
+  }).then(function(user){
+    
+    role=(user.numid.length == 7)? 'tea':'stu';
+    console.log(role);
+    
+  });*/
+
+
+
+  
 

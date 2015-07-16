@@ -2,9 +2,6 @@ extends ../layout
 block content
   - var caption = (role == 'stu')? '创建学生行政单元' : '创建教职工行政单元'
   - var initcode = (role == 'stu')? '10576-01-01-xx-xxxx-xx-xx' : '10576-02-xx-xx-xx'
-  if flash[1]
-    - initcode = flash[1].message
-    - flash.pop()
 
   if role == 'stu'
     script(src='/units_student.js')
@@ -19,10 +16,8 @@ block content
       .panel-heading
         h3.panel-title #{caption}
       .panel-body
-        form#UnitForm.form-horizontal(method="post" action="/units")
-          input(type="hidden" value="" id="htcode" name="htcode")
-          input(type="hidden" value="" id="name" name="name")
-          include ../messages.jade
+        form#addUnitForm.form-horizontal(method="post" action="/units")
+          .alert
           .form-group
             .input-group
               span.input-group-addon 单元编码
@@ -60,7 +55,7 @@ block content
           .form-group     
             .input-group
               span.input-group-addon 激活状态
-              select#astatus.form-control(name="status")
+              select#astatus.form-control
                 option(value="01" selected) 启用
                 option(value="02") 禁用
               span.input-group-addon 启用/禁用此单元

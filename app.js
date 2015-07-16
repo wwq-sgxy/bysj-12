@@ -1,3 +1,4 @@
+//应用程序主文件
 var express = require('express');               //载入express模块
 var path = require('path');                     //载入path模块
 var favicon = require('serve-favicon');         //载入应用程序小图标
@@ -8,11 +9,35 @@ var RedisStore = require('connect-redis')(session); //载入connect-redis模块
 var bodyParser = require('body-parser');        //载入body-parser模块
 var methodOverride = require('method-override');
 
-//var tables = require('./models/tabled.js');  //表定义
+//此处载入【用户管理系统】的路由处理器模块
 var routes = require('./routes/main/index');   //载入根路由
 var users = require('./routes/main/users');    //载入users路由
 var auth = require('./routes/main/session');   //载入会话路由，用做身份认证
-var units = require('./routes/main/units');  //载入units路由
+var units = require('./routes/main/units');    //载入units路由
+var roles = require('./routes/main/roles');    //载入roles路由
+
+//此处载入【课堂教学Web应用系统（吴国豪）】的路由处理器模块
+var wgh_routes = require('./routes/wuguohao/index');   //载入根路由
+
+//此处载入【综合信息服务系统（黄思敏）】的路由处理器模块
+var hsm_routes = require('./routes/huangsimin/index');   //载入根路由
+
+//此处载入【学生事务Web应用系统（许曼琪）】的路由处理器模块
+var xmq_routes = require('./routes/xumanqi/index');   //载入根路由
+
+//此处载入【实验课Web管理系统（曾蔚）】的路由处理器模块
+var zw_routes = require('./routes/zenwei/index');   //载入根路由
+
+//此处载入【网上调查表决和意见反馈系统（李华鸿）】的路由处理器模块
+var lhh_routes = require('./routes/lihuahong/index');   //载入根路由
+
+//此处载入【电子资料管理分享平台（李业富）】的路由处理器模块
+var lyf_routes = require('./routes/liyefu/index');   //载入根路由
+
+//此处载入【师生课外学习交流平台（詹锦标）】的路由处理器模块
+var zjb_routes = require('./routes/zhanjinbiao/index');   //载入根路由
+
+
 var app = express();          //生成express应用程序实例
 
 //auth.tables = tables;
@@ -37,10 +62,34 @@ app.use(require('flash')());
 app.use(express.static(path.join(__dirname, 'public')));  //启用静态文件服务中间件
 app.use(express.static(path.join(__dirname, 'config')));
 
+//此处加载【用户管理系统】的路由中间件
 app.use('/', routes);       //启用根路由中间件
 app.use('/users', users);   //启用users路由中间件
 app.use('/auth', auth);     //启用session路由中间件
 app.use('/units', units);   //启用units路由中间件
+app.use('/roles', roles);   //启用units路由中间件
+
+//此处加载【课堂教学Web应用系统（吴国豪）】的路由中间件
+app.use('/wgh', wgh_routes);       //启用根路由中间件
+
+//此处加载【综合信息服务系统（黄思敏）】的路由中间件
+app.use('/hsm', hsm_routes);       //启用根路由中间件
+
+//此处加载【学生事务Web应用系统（许曼琪）】的路由中间件
+app.use('/xmq', xmq_routes);       //启用根路由中间件
+
+//此处加载【实验课Web管理系统（曾蔚）】的路由中间件
+app.use('/zw', zw_routes);       //启用根路由中间件
+
+//此处加载【网上调查表决和意见反馈系统（李华鸿）】的路由中间件
+app.use('/lhh', lhh_routes);       //启用根路由中间件
+
+//此处加载【电子资料管理分享平台（李业富）】的路由中间件
+app.use('/lyf', lyf_routes);       //启用根路由中间件
+
+//此处加载【师生课外学习交流平台（詹锦标）】的路由中间件
+app.use('/zjb', zjb_routes);       //启用根路由中间件
+
 
 // 捕获404错误并转错误处理函数
 app.use(function(req, res, next) {

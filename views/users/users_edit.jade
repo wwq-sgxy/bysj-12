@@ -1,10 +1,41 @@
+
 extends ../layout
 block content
-  - var caption = (role == 'stu')? '编辑学生用户表' : '编辑教职工用户表'
-
-  if role == 'stu'
-    script(src='/users_student.js')
-    script(src='/javascripts/getStudentUser.js')
-  else
-    script(src='/users_teacher.js')
-    script(src='/javascripts/getTeacherUser.js')
+    
+    include ../header.jade
+    #users_edit.container
+      .row
+        .col-md-8.col-md-offset-1
+          .panel.panel-primary
+            .panel-heading
+              .panel-title 编辑用户表单
+            .panel-body
+              form#editUserForm.form-horizontal(method="POST" action="/users/#{user.id}?_method=PUT")
+              include ../messages.jade
+              .form-group
+                .input-group
+                  span.input-group-addon 用户ID
+                  input(id="user-numid" type="text" class="form-control" disabled value="#{user.numid}" title="自动显示用户ID")
+                  span.input-group-addon 所属行政单元ID
+                  input(id="user-unitid" type="text" class="form-control" disabled value="#{user.unitid}" title="自动显示所属行政单元ID")
+              .form-group
+                .input-group
+                  span.input-group-addon 姓名
+                  input(id="user-name" type="text" class="form-control" value="#{user.name}")
+              .form-group
+                .input-group
+                  span.input-group-addon 审核状态
+                  select#astatus.form-control(name="astatus")
+                    if user.astatus
+                      option(value="01" selected) 已审核
+                      option(value="02") 未审核
+                    else
+                      option(value="01") 已审核
+                      option(value="02" selected) 未审核
+                .form-group
+                .btnok
+                  input.button.button-pill.button-primary.btn-lg(type="submit" value="提交")
+                .form-group
+                p.link
+                  a(href="/users" target="_blank") 显示全部
+              
