@@ -43,5 +43,6 @@ exports.testUser = function(test) {
       }
     });  
   });
+  
   test.done();
 };

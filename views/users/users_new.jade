@@ -1,7 +1,7 @@
 extends ../layout
 block content
   - var caption = (role == 'stu')? '学生注册' : '教职工注册'
-  - var initcode = (role == 'stu')? '10576-01-01-xx-xxxx-xx-xx' : '10576-02-xx-xx-xx'
+  - var labNumid = (role == 'stu')? '您的学号' : '您的工号'
   
   if role == 'stu'
     script(src='/units_student.js')
@@ -18,31 +18,39 @@ block content
       .panel-body
         form#addUserForm.form-horizontal(method='post', action='/users')
           include ../messages.jade
-          input(id="unit-code" type="hidden" name="htcode" value="#{initcode}") 
+          input(id="unit-code" type="hidden" name="htcode" value="#{user.htcode}") 
           .form-group.form-group-lg
-            input#name.form-control(type='text', name="numid" placeholder='请输入您的学号')
+            .input-group
+              span.input-group-addon #{labNumid}
+              input#name.form-control(type='text', name="numid" placeholder='请输入您的学号' value="#{user.numid}")
           .form-group.form-group-lg
-            input#name.form-control(type='text', name="name" placeholder='请输入您的真实姓名')
+            .input-group
+              span.input-group-addon 您的姓名
+              input#name.form-control(type='text', name="name" placeholder='请输入您的真实姓名' value="#{user.name}")
           .form-group.form-group-lg
-            input#Password.form-control(type='password', name="pass" placeholder='请输入密码')
+            .input-group
+              span.input-group-addon 您的密码
+              input#Password.form-control(type='password', name="pass" placeholder='请输入密码' value="#{user.pass}")
           .form-group.form-group-lg
-            input#Password.form-control(type='password', name="repass" placeholder='请再次输入密码')
+            .input-group
+              span.input-group-addon 密码确认
+              input#Password.form-control(type='password', name="repass" placeholder='请再次输入密码' value="#{user.repass}")
           .form-group.form-group-lg
             p.form-control-static.bg-info 请选择您现在所属的班级信息
             if role == 'stu'
-              select#college.form-control
+              select#college.form-control(data="#{user.collegeCode}")
             else
               select#institutions.form-control
             if role == 'stu'
-              select#grade.form-control
+              select#grade.form-control(data="#{user.gradeCode}")
             else
               select#departments.form-control
             if role == 'stu'
-              select#major.form-control
+              select#major.form-control(data="#{user.majorCode}")
             else
               select#divsion.form-control
             if role == 'stu'
-              select#stuclass.form-control
+              select#stuclass.form-control(data="#{user.stuclassCode}")
           .form-group
             .btnok
               input.button.button-glow.button-border.button-rounded.button-primary(type='submit' value="提交")

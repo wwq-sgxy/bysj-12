@@ -37,9 +37,9 @@ var Unit = db.sequelize.define('unit', {
   status: {
     type: Sequelize.BOOLEAN,
     allowNull : false,
-    validate: {
-      isIn: [[true, false]]
-    },
+    // validate: {
+    //   isIn: [[true, false]]
+    // },
     defaultValue: true
   },
   role: {
@@ -205,7 +205,7 @@ var Info = db.sequelize.define('user_infos',
     },
     
     sex:{
-      type:Sequelize.STRING,
+      type:Sequelize.CHAR,
       validate: {
         isIn: {
           args: [['M','F']],

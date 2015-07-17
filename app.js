@@ -15,6 +15,7 @@ var users = require('./routes/main/users');    //载入users路由
 var auth = require('./routes/main/session');   //载入会话路由，用做身份认证
 var units = require('./routes/main/units');    //载入units路由
 var roles = require('./routes/main/roles');    //载入roles路由
+//var user_infos = require('./routes/main/user_infos');//载入user_infos路由
 
 //此处载入【课堂教学Web应用系统（吴国豪）】的路由处理器模块
 var wgh_routes = require('./routes/wuguohao/index');   //载入根路由
@@ -26,7 +27,7 @@ var hsm_routes = require('./routes/huangsimin/index');   //载入根路由
 var xmq_routes = require('./routes/xumanqi/index');   //载入根路由
 
 //此处载入【实验课Web管理系统（曾蔚）】的路由处理器模块
-var zw_routes = require('./routes/zenwei/index');   //载入根路由
+var zw_routes = require('./routes/zengwei/index');   //载入根路由
 
 //此处载入【网上调查表决和意见反馈系统（李华鸿）】的路由处理器模块
 var lhh_routes = require('./routes/lihuahong/index');   //载入根路由
@@ -68,6 +69,7 @@ app.use('/users', users);   //启用users路由中间件
 app.use('/auth', auth);     //启用session路由中间件
 app.use('/units', units);   //启用units路由中间件
 app.use('/roles', roles);   //启用units路由中间件
+//app.use('/user_infos',user_infos);//启用user_infos路由中间件
 
 //此处加载【课堂教学Web应用系统（吴国豪）】的路由中间件
 app.use('/wgh', wgh_routes);       //启用根路由中间件

@@ -30,11 +30,25 @@ router.get('/', function(req, res) {
 //new动作
 router.get('/new', function(req, res) {
   var role = 'stu',
-      user = User.build({});
-
-  if(typeof(req.query.role) !== 'undefined' && req.query.role === 'tea') {
+      userStu = { numid:"", name:"", pass:"", repass:"",
+        collegeCode: 'xx',
+        gradeCode: 'xxxx',
+        majorCode: 'xx',
+        stuclassCode: 'xx',
+        htcode: '10576-01-01-xx-xxxx-xx-xx'
+      },
+      userTea = { numid:"", name:"", pass:"",
+        institutionsCode: 'xx',
+        departmentsCode: 'xx',
+        divsionCode: 'xx',
+        htcode: '10576-02-xx-xx-xx'
+      };
+      
+  if (typeof(req.query.role) !== 'undefined' && req.query.role === 'tea') {
     role = 'tea';
   }
+
+  var user = (role == 'stu') ? userStu : userTea;
 
   res.render('users/users_new', {
     title: '用户注册',
@@ -49,13 +63,30 @@ router.get('/new', function(req, res) {
 router.post('/', function(req, res) {
   //req.flash(JSON.stringify(req.body));
   //res.redirect('back');
-  var htcode = req.body.htcode;
+  var htcode = req.body.htcode,
+      role = (htcode.substr(6,2)=='01')? 'stu':'tea';
+    
+  if (role == 'stu') {
+    req.body.collegeCode = htcode.substr(12,2);
+    req.body.gradeCode = htcode.substr(15,4);
+    req.body.majorCode = htcode.substr(20,2);
+    req.body.stuclassCode = htcode.substr(23,2);
+  } else {
+    req.body.institutionsCode = htcode.substr(12,2);
+    req.body.departmentsCode = htcode.substr(15,2);
+    req.body.divsionCode = htcode.substr(18,2);
+  }
   
   User.findOne({ where : { numid: req.body.numid } })
   .then(function(user) {
     if (user) {
       req.flash("warning", "此学号已注册！");
-      res.redirect('back');
+      res.render('users/users_new', {
+        title: '用户注册',
+        sess: req.session,
+        role: role,
+        user: req.body
+      });
     } else {
       Unit.findOne({ where : { htcode: htcode } })
       .then(function(unit) {
@@ -82,8 +113,13 @@ router.post('/', function(req, res) {
               res.redirect('back');
             }
           }).catch(function(err){
-            req.flash("info", err.errors[0].path);
-            res.redirect('back');
+            req.flash("info", err.errors[0].path+'\n'+JSON.stringify(req.body));
+            res.render('users/users_new', {
+              title: '用户注册',
+              sess: req.session,
+              role: role,
+              user: req.body
+            });
           });
         
         }
