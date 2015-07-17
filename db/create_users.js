@@ -5,7 +5,7 @@ var tables = require('../models/tabled.js');
 var User = tables.User;
 
 User.sync({force: true}).then(function () {
-  // Table created
+  // Table createdgit 
   return User.bulkCreate([
     {
       numid: '12115011033', 
