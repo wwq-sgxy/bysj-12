@@ -1,0 +1,41 @@
+extends ../layout
+block content
+  script(src='/javascripts/shared/slidePager.js')
+  
+  include ../header.jade
+  #student_all.container
+    include ../messages.jade
+    .row
+      h2 浏览学生
+      table.table.table-striped.table-hover
+        tr
+          th 学号
+          th 姓名
+          th 所属班级
+          th 审核状态
+          td(colspan="3")
+        each stu in students  
+          tr
+            td= stu.numid
+            td= stu.name
+            td= stu.Unit.name
+            td= stu.astatus
+            td(class="link")
+              a(class="edit btn" href="./students/#{stu.id}/edit")
+                span(class="glyphicon glyphicon-pencil")
+            td(class="link")
+              form(method="POST" action="/students/#{stu.id}?_method=DELETE")
+                button(class="delete btn" type="submit") 
+                  span(class="glyphicon glyphicon-trash" aria-hidden="true")
+            td(class="link")
+              a(href="./students/#{stu.id}" class="show btn") 
+                span(class="glyphicon glyphicon-list-alt")
+    .row
+      .col-lg-3.page-num
+        .input-group
+          span.input-group-btn
+            button(class="btn btn-default" type="button" id="pageOK") Go
+          input(type="text" class="form-control" id="pnum" value="#{curPage}")
+          span.input-group-addon(id="total") / #{total}
+      .col-lg-8.unit-pager
+        !{pagesHTML}

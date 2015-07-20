@@ -51,11 +51,12 @@ body {
   }
 }
 
-//以下样式适用于 units/index 页面
-#units_index {
+//以下样式适用于 unitstus/index 和unitteas/index页面
+#unitstu_index, #unittea_index, #student_all {
   margin-top: 50px;
   td {
     padding-right: 10px;
+    font: 16px "宋体", Helvetica, Arial, sans-serif;
   }
   .page-num {
     padding-top: 40px;
@@ -71,6 +72,7 @@ body {
   }
   p {
     text-align: right;
+    font: 16px "宋体", Helvetica, Arial, sans-serif;
   }
   td.link {
     width: 6%;
@@ -82,14 +84,14 @@ body {
     width: 20%;
   }
 }
-//以下样式适用于 units/new 和units/edit页面
-#units_new, #units_edit {
-  #addUnitForm, #editUnitForm {
+//以下样式适用于 unitstus/new 和unitstus/:id/edit页面
+#unitstu_new, #unitstu_edit, #unittea_new, #unittea_edit{
+  #addUnitStuForm, #editUnitStuForm, #addUnitTeaForm, #editUnitTeaForm {
     padding: 40px;
   }
   .panel {
-    width: 70%;
-    margin-left: 15%;
+    width: 60%;
+    margin-left: 20%;
   }
   .form-group{
     padding:0 10px 0 0;
@@ -118,10 +120,11 @@ body {
     }
   }
 }
-//以下样式适用于 units/show 页面 
-#units_show {
+//以下样式适用于 unitstu/show 页面 
+#unitstu_show, #unittea_show {
   .panel {
     padding: 0px;
+    width: 60%;
     .panel-body {
       padding: 20px;
       td.left {
@@ -151,6 +154,17 @@ body {
     color: black;
   }
 }        
+
+//以下样式是用于 users_new 页面
+#users_new {
+  ul.alert {
+    list-style-type: none;
+    margin-left: 10px;
+    li {
+      padding-bottom: 5px;
+    }
+  }
+}
 
 //以下样式是用于 users_edit 页面
 #users_edit{

@@ -2,39 +2,35 @@
 extends ../layout
 
 block content
-  script(src='/javascripts/slidePager.js')
+  script(src='/javascripts/shared/slidePager.js')
 
   include ../header.jade
-  #units_index.container
+  #unitstu_index.container
+    include ../messages.jade
     .row
-      .col-md-11.col-md-offset-1
-        include ../messages.jade
-        h2 浏览行政单元
-        p 
-          a(href="/units/new?role=stu" target="_blank") 创建学生单元 | 
-          a(href="/units/new?role=tea" target="_blank") 创建教职工单元
-        table.table.table-striped.table-hover
-          tr
-            td 单元编码
-            td 单元名称
-            td 审核状态
-            td 基本角色
-            td(colspan="3")
+      h2 浏览学生单元
+      p 
+        a(href="/unitstus/new") 创建学生单元
+      table.table.table-striped.table-hover
+        tr
+          td 单元编码
+          td 单元名称
+          td 启用状态
+          td(colspan="3")
           each unit in units
             tr
               td(class="code")= unit.htcode
               td= unit.name
               td(class="status-role")= (unit.status)? '已启用' : '已禁用'
-              td(class="status-role")= unit.role
               td(class="link")
-                a(class="edit btn" href="./units/#{unit.id}/edit")
+                a(class="edit btn" href="./unitstus/#{unit.id}/edit")
                   span(class="glyphicon glyphicon-pencil")
               td(class="link")
-                form(method="POST" action="/units/#{unit.id}?_method=DELETE")
+                form(method="POST" action="/unitstus/#{unit.id}?_method=DELETE")
                   button(class="delete btn" type="submit") 
                     span(class="glyphicon glyphicon-trash" aria-hidden="true")
               td(class="link")
-                a(href="./units/#{unit.id}" class="show btn") 
+                a(href="./unitstus/#{unit.id}" class="show btn") 
                   span(class="glyphicon glyphicon-list-alt")
     .row
       .col-lg-3.page-num

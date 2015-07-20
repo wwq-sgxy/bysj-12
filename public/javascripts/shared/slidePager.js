@@ -20,6 +20,7 @@ $(function() {
       SlideWinSize = 5,    //滑动窗口的大小，控制分页器显示的页数
       total = parseInt($("#total").text().substr(2));   //总页数
  
+  if (total == 1) { $('.page-num').hide(); }
   if (total <= SlideWinSize) return;
   //计算当前页的映射位置，并隐藏该位置前后的页码
   maskp = Math.floor(cp/SlideWinSize)*SlideWinSize + 1;

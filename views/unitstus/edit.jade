@@ -1,0 +1,53 @@
+extends ../layout
+block content
+  script(src='/units_student.js')
+  script(src='/javascripts/unitstu/new_edit.js')
+  
+  include ../header
+  #unitstu_edit.container
+    .panel.panel-primary
+      .panel-heading
+        h3.panel-title 编辑学生单元
+      .panel-body
+        form#editUnitStuForm.form-horizontal(method="POST" action="/unitstus/#{unit.id}?_method=PUT")
+          input(type="hidden" value="" id="htcode" name="htcode")
+          input(type="hidden" value="" id="name" name="name")
+          include ../messages.jade
+          .form-group
+            .input-group
+              span.input-group-addon 单元编码
+              input(id="unit-code" type="text" class="form-control" disabled value="#{unit.htcode}")
+          .form-group
+            .input-group
+              span.input-group-addon 二级学院
+              select#college.form-control
+              span.input-group-addon @韶关学院
+            .input-group
+              span.input-group-addon 所属年级
+              select#grade.form-control
+              span.input-group-addon @韶关学院
+            .input-group
+              span.input-group-addon 所属专业
+              select#major.form-control
+              span.input-group-addon @韶关学院
+            .input-group
+              span.input-group-addon 所属班级
+              select#stuclass.form-control
+              span.input-group-addon @韶关学院     
+          .form-group     
+            .input-group
+              span.input-group-addon 启用状态
+              select#astatus.form-control(name="status")
+                if unit.status
+                  option(value="01" selected) 启用
+                  option(value="02") 禁用
+                else
+                  option(value="01") 启用
+                  option(value="02" selected) 禁用
+              span.input-group-addon 启用/禁用此单元
+          .form-group
+            .btnok
+              input.button.button-pill.button-primary.btn-lg(type="submit" value="提交")
+          .form-group
+            p.link
+              a(href="/unitstus") 显示全部

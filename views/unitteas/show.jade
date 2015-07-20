@@ -3,10 +3,10 @@ extends ../layout
 
 block content
   include ../header.jade
-  #units_show.container
-    .panel.panel-info
+  #unittea_show.container
+    .panel.panel-info.container
       .panel-heading
-        h3 行政单元详细信息
+        h3 教职工单元详细信息
       .panel-body
         include ../messages.jade
         table.table.table-striped.table-hover
@@ -17,10 +17,7 @@ block content
             td(class="left") 单元名称
             td= unit.name
           tr
-            td(class="left") 基本角色
-            td= unit.role
-          tr
-            td(class="left") 审核状态
+            td(class="left") 启用状态
             td= (unit.status)? '已启用' : '已禁用'
           tr
             td(class="left") 创建时间
@@ -29,9 +26,9 @@ block content
             td(class="left") 更新时间
             td= unit.updatedTime
       .panel-footer
-        a(title="显示全部单元",href="/units")
+        a(title="显示全部单元",href="/unitteas")
           button.button.button-large.button-primary.button-border.button-circle
             i.fa.fa-reply
-        a.pull-right(title="编辑",href="/units/#{unit.id}/edit")
+        a.pull-right(title="编辑",href="/unitteas/#{unit.id}/edit")
           button.button.button-large.button-primary.button-border.button-circle
             span.glyphicon.glyphicon-pencil

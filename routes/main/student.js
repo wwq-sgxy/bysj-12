@@ -5,87 +5,91 @@ var cs = require('../../models/share.js');      //加载共享函数
 var crypto = require('crypto'),
     hmac = crypto.createHmac('sha1', '650827');
 
-var User = tables.User;   //用户表模型
-var Unit = tables.Unit;   //行政单元模型
-/* 应该在这里实现users表的RESTful操作 */
-//下面是针对/users路径的get方法请求
+var Student = tables.Student;     //学生表模型
+var UnitStu = tables.UnitStu;     //学生单元模型
+
+//下面是针对/students路径的get方法请求
 //index动作
 router.get('/', function(req, res) {
-  User.findAll({
-    order: 'numid ASC ',
-    attributes: ['id','numid','name','astatus']
-  }).then(function(users){
-    res.render('users/users_all', { 
-      title: '用户表' ,
-      users: users,
+  var currentPage = 1,
+      pageSize = 10,        //这里应该从配置文件取
+      pagesHTML = '',       //要生成的分页器
+      pages = 0;            //总页数
+
+  if (typeof(req.query.s) !== 'undefined' && !isNaN(req.query.s)){
+    currentPage = parseInt(req.query.s, 10); //将字符串转为数字
+  }
+
+  Student.count().then(function(total) {
+    pages = (total > pageSize) ? Math.ceil(total/pageSize) : 1; //计算总页数
+    pagesHTML = cs.makePager(total, currentPage, pageSize); //生成分页器
+  }).catch(function(err){
+    res.send(err);
+  });
+
+  Student.findAll({
+    offset: (currentPage - 1 ) * pageSize,
+    limit: pageSize,
+    order: 'numid ASC',
+    attributes: ['id', 'numid', 'name', 'astatus'],
+    include: [{
+      model: UnitStu, as: 'Unit',
+      attributes: ['name']
+    }]
+  }).then(function(students) {
+    res.render('students/all', { 
+      title: '学生' ,
+      pagesHTML: pagesHTML,
+      students: students,
+      total: pages,
+      curPage: currentPage,
       sess: req.session
     });
-  }).catch(function(err) {
-    req.flash(err);
+  }).catch(function() {
+    res.flash('info',"系统出错，稍后再试！");
+    res.redirect('back');
   });
   
 });
 
-//下面是针对/users/new路径的get方法请求，
+/*
 //new动作
 router.get('/new', function(req, res) {
-  var role = 'stu',
-      userStu = { numid:"", name:"", pass:"", repass:"",
+  var student = { numid:"", name:"", pass:"", repass:"",
         collegeCode: 'xx',
         gradeCode: 'xxxx',
         majorCode: 'xx',
         stuclassCode: 'xx',
         htcode: '10576-01-01-xx-xxxx-xx-xx'
-      },
-      userTea = { numid:"", name:"", pass:"",
-        institutionsCode: 'xx',
-        departmentsCode: 'xx',
-        divsionCode: 'xx',
-        htcode: '10576-02-xx-xx-xx'
       };
-      
-  if (typeof(req.query.role) !== 'undefined' && req.query.role === 'tea') {
-    role = 'tea';
-  }
 
-  var user = (role == 'stu') ? userStu : userTea;
-
-  res.render('users/users_new', {
-    title: '用户注册',
+  res.render('students/new', {
+    title: '学生注册',
     sess: req.session,
-    role: role,
-    user: user
+    student: student
   });
 });
 
-//下面是针对/users路径的post方法请求
+//下面是针对/students路径的post方法请求
 //create动作
 router.post('/', function(req, res) {
   //req.flash(JSON.stringify(req.body));
   //res.redirect('back');
-  var htcode = req.body.htcode,
-      role = (htcode.substr(6,2)=='01')? 'stu':'tea';
-    
-  if (role == 'stu') {
-    req.body.collegeCode = htcode.substr(12,2);
-    req.body.gradeCode = htcode.substr(15,4);
-    req.body.majorCode = htcode.substr(20,2);
-    req.body.stuclassCode = htcode.substr(23,2);
-  } else {
-    req.body.institutionsCode = htcode.substr(12,2);
-    req.body.departmentsCode = htcode.substr(15,2);
-    req.body.divsionCode = htcode.substr(18,2);
-  }
+  var htcode = req.body.htcode;
   
-  User.findOne({ where : { numid: req.body.numid } })
-  .then(function(user) {
-    if (user) {
+  req.body.collegeCode = htcode.substr(12,2);
+  req.body.gradeCode = htcode.substr(15,4);
+  req.body.majorCode = htcode.substr(20,2);
+  req.body.stuclassCode = htcode.substr(23,2);
+
+  Student.findOne({ where : { numid: req.body.numid } })
+  .then(function(student) {
+    if (student) {
       req.flash("warning", "此学号已注册！");
-      res.render('users/users_new', {
-        title: '用户注册',
+      res.render('students/new', {
+        title: '学生注册',
         sess: req.session,
-        role: role,
-        user: req.body
+        student: req.body
       });
     } else {
       Unit.findOne({ where : { htcode: htcode } })
@@ -99,13 +103,13 @@ router.post('/', function(req, res) {
           
           //req.body.unitId = unit.id;
           //req.body.pass = hmac.update(req.body.pass).digest('hex');
-          User.create({
+          Student.create({
             numid: req.body.numid,
             name: req.body.name,
             pass: req.body.pass,
             unitId: unit.id
-          }).then(function(user) {
-            if (user) {
+          }).then(function(student) {
+            if (student) {
               req.flash("success", "注册成功！");
               res.redirect('back');
             } else {
@@ -117,11 +121,10 @@ router.post('/', function(req, res) {
               req.flash(err.errors[i].path,err.errors[i].message);
             }
 
-            res.render('users/users_new', {
-              title: '用户注册',
+            res.render('students/new', {
+              title: '学生注册',
               sess: req.session,
-              role: role,
-              user: req.body
+              student: req.body
             });
           });
         
@@ -130,10 +133,7 @@ router.post('/', function(req, res) {
     }
     
   });
-  
-  
-  
-  
+
 /* 
   Unit.findOrCreate({
     where : {
@@ -151,33 +151,32 @@ router.post('/', function(req, res) {
   }).catch(function() {
     res.send({dStyle: 'alert-info', msg: '系统出错！稍后再试'});
   });
-*/
-  
+
 });
 
 //下面是针对/users/:id路径的get方法请求，
 //show动作
 router.get('/:id', function(req, res) {
   //res.send('这里应获取users表ID为'+req.params.id+'的记录');
-   User.findOne({
+   Student.findOne({
     where:{ id: req.params.id }
-  }).then(function(user) {
-    if (!user) {
+  }).then(function(student) {
+    if (!student) {
       res.render('tips', { 
         info: "不存在这样的记录！"
       });
     }
-    user.createdTime = cs.dbTimeToLocaltime({
-      dbtime: user.createdAt,
+    student.createdTime = cs.dbTimeToLocaltime({
+      dbtime: student.createdAt,
       tz: 8
     });
-    user.updatedTime = cs.dbTimeToLocaltime({
-      dbtime: user.updatedAt,
+    student.updatedTime = cs.dbTimeToLocaltime({
+      dbtime: student.updatedAt,
       tz: 8
     });
-    res.render('users/users_show', {
+    res.render('students/show', {
       title: '详细内容显示',
-      user:user,
+      student: student,
       sess: req.session
     });
   }).catch(function(err) {
@@ -186,54 +185,48 @@ router.get('/:id', function(req, res) {
 }); 
 
 
-//下面是针对/users/:id/edit路径的get方法请求
+//下面是针对/students/:id/edit路径的get方法请求
 //edit动作
 router.get('/:id/edit', function(req, res) {
-  var id=req.params.id,
-      role;
-  User.findOne({
+  var id = req.params.id;
+  Student.findOne({
     where:{id:id},
     attributes:['id','numid','name','pass','unitid','astatus','cidset']
-  }).then(function(user){
-    if(!user){
+  }).then(function(student){
+    if(!student){
       res.render('tips',{
         info:"不存在这样的记录！"
       });
     }
-    //role = (user.numid.length == 11)? "stu":"tea";
-    if(user.numid.length == 7) {role="admin";}
-    else if(user.numid.length == 11) {role = "stu";}
-    else {role = "tea"}
-    res.render('users/users_edit',{
-      title:'编辑用户表单',
-      user:user,
-      sess:req.session,
-      role:role
+    res.render('students/edit',{
+      title:'编辑学生表单',
+      student: student,
+      sess:req.session
     });
   });
   //res.send('这里应获取编辑表单，编辑ID为'+req.params.id+'的记录');
 });
 
-//下面是针对/users/:id路径的put或patch方法请求，
+//下面是针对/students/:id路径的put或patch方法请求，
 //update动作
 router.put('/:id', function(req, res) {
-  var id=req.params.id,
-      name=req.body.name,
-      numid=req.body.numid,
-      pass=req.body.pass,
-      unitid=req.body.unitid,
-      astatus=( req.body.astatus == "01")? "已审核":"未审核",
-      cidset=req.body.cidset;
+  var id = req.params.id,
+      name = req.body.name,
+      numid = req.body.numid,
+      pass = req.body.pass,
+      unitid = req.body.unitid,
+      astatus =(req.body.astatus == "01")? "已审核":"未审核",
+      cidset = req.body.cidset;
       
-      User.findOne({
+      Student.findOne({
         where:{numid:numid}
-      }).then(function(user){
-        if (user && user.id != id) {
-      req.flash("此单元编码已存在！");
+      }).then(function(student){
+        if (student && student.id != id) {
+      req.flash("此学号已存在！");
       res.redirect('back');
     }
         else{
-          User.update(
+          Student.update(
           {
             numid:numid,
             name:name,
@@ -244,9 +237,9 @@ router.put('/:id', function(req, res) {
             updatedAt: new Date()
           }, {
             where:{id:id}
-          }).then(function(user){
+          }).then(function(student){
             req.flash("更新成功!");
-            res.redirect('/users/'+id);
+            res.redirect('/students/'+id);
           }).catch(function(){
             req.flash("更新失败！");
             res.redirect('back');
@@ -260,18 +253,18 @@ router.put('/:id', function(req, res) {
   //res.send('这里应处理编辑表单提交的数据，然后更新ID为'+req.params.id+'的记录');
 });
 
-//下面是针对/users/:id路径的delete方法请求，
+//下面是针对/students/:id路径的delete方法请求，
 //delete动作
 router.delete('/:id', function(req, res) {
   //res.send('这里应处理删除请求，删除ID为'+req.params.id+'的记录');
   var id = req.params.id;
 
-  User.destroy({
+  Student.destroy({
     where:{id : id}
   }).then(function(ret) {
     if (ret) {
       req.flash("删除成功！");
-      res.redirect('/users');  
+      res.redirect('/students');  
     } else {
       req.flash("找不到要删除的记录！");
       res.redirect('back');
@@ -281,5 +274,5 @@ router.delete('/:id', function(req, res) {
     res.redirect('back');
   });
 });
-
+*/
 module.exports = router;

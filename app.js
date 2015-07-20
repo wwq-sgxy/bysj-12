@@ -11,9 +11,11 @@ var methodOverride = require('method-override');
 
 //此处载入【用户管理系统】的路由处理器模块
 var routes = require('./routes/main/index');   //载入根路由
-var users = require('./routes/main/users');    //载入users路由
+//var users = require('./routes/main/users');    //载入users路由
+var student = require('./routes/main/student');    //载入students路由
 var auth = require('./routes/main/session');   //载入会话路由，用做身份认证
-var units = require('./routes/main/units');    //载入units路由
+var unitstu = require('./routes/main/unitstu');    //载入unitstu路由
+var unittea = require('./routes/main/unittea');    //载入unittea路由
 var roles = require('./routes/main/roles');    //载入roles路由
 //var user_infos = require('./routes/main/user_infos');//载入user_infos路由
 
@@ -65,9 +67,11 @@ app.use(express.static(path.join(__dirname, 'config')));
 
 //此处加载【用户管理系统】的路由中间件
 app.use('/', routes);       //启用根路由中间件
-app.use('/users', users);   //启用users路由中间件
+//app.use('/users', users);   //启用users路由中间件
+app.use('/students', student);   //启用students路由中间件
 app.use('/auth', auth);     //启用session路由中间件
-app.use('/units', units);   //启用units路由中间件
+app.use('/unitstus', unitstu);   //启用unitstu路由中间件
+app.use('/unitteas', unittea);   //启用unittea路由中间件
 app.use('/roles', roles);   //启用units路由中间件
 //app.use('/user_infos',user_infos);//启用user_infos路由中间件
 

@@ -1,0 +1,46 @@
+extends ../layout
+block content
+  - var initcode = 'xx-xx-xx'
+  script(src='/units_teacher.js')
+  script(src='/javascripts/unittea/new_edit.js')
+  
+  include ../header
+  #unittea_new.container
+    .panel.panel-primary
+      .panel-heading
+        h3.panel-title 创建教职工单元
+      .panel-body
+        form#addUnitTeaForm.form-horizontal(method="post" action="/unitteas")
+          .alert
+          .form-group
+            .input-group
+              span.input-group-addon 单元编码
+              input(id="unit-code" type="text" class="form-control" disabled value="#{initcode}")
+          .form-group
+            .input-group
+              span.input-group-addon 机构部门
+              select#institutions.form-control
+              span.input-group-addon @韶关学院
+            .input-group
+              span.input-group-addon 机构附属
+              select#departments.form-control
+              span.input-group-addon @韶关学院
+            .input-group
+              span.input-group-addon 院系附属
+              select#divsion.form-control
+              span.input-group-addon @韶关学院
+          .form-group     
+            .input-group
+              span.input-group-addon 启用状态
+              select#astatus.form-control
+                option(value="01" selected) 启用
+                option(value="02") 禁用
+              span.input-group-addon 启用/禁用此单元
+          .form-group
+            .btnok
+              input.button.button-border.button-rounded.button-primary.btn-lg(type="submit" value="提交")
+          .form-group
+            p.link
+              a(href="/unitstus/new") 创建学生单元
+              span  &nbsp;| &nbsp;  
+              a(href="/unitteas") 显示全部

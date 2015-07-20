@@ -4,8 +4,7 @@ var institutions = [
   { code: '02', name: '管理部门' },
   { code: '03', name: '教辅部门' },
   { code: '04', name: '附属机构' },
-  { code: '05', name: '专职科研机构' },
-  //{ pcode: '10576-03', mycode: '99', name: '系统管理组' }
+  { code: '05', name: '专职科研机构' }
 ];
   
 //机构或部门附属（四级）

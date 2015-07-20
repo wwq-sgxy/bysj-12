@@ -1,6 +1,34 @@
 /****** ============学生下拉框============ ******/
 $(function() {
+  var iconHtml = '<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>';
+      iconHtml += '<span id="inputError2Status" class="sr-only">(error)</span>';
+  var icon = $(iconHtml).css("top",'5px').css("right",'5px');
+  var errText = '';
   //$(".alert","form#addUserForm").hide();
+  
+  //处理学号输入错误提示
+  //$('#numid').attr('title',$("li.numid").html());
+  if ($("li.numid")) {
+    errText = '';
+    $("li.numid").each(function() {
+      errText += $(this).html();
+    });
+    $('#numid').attr('title',errText);
+    $('#numid').closest('.form-group').addClass('has-error has-feedback');
+    $('#numid').closest('.input-group').after(icon.clone());
+  }
+ 
+  //$('#name').attr('title',$("li.name").html());
+  if ($("li.name")) {
+    errText = '';
+    $("li.name").each(function() {
+      errText += $(this).html() + '\n';
+    });
+    $('#name').attr('title',errText);
+    $('#name').closest('.form-group').addClass('has-error has-feedback');
+    $('#name').closest('.input-group').after(icon.clone());
+  }
+
   
   $('#college').append('<option value="xx">--- 所属二级学院 ---</option>');
   //填充学院下拉列表

@@ -1,15 +1,8 @@
 extends ../layout
 block content
-  - var caption = (role == 'stu')? '学生注册' : '教职工注册'
-  - var labNumid = (role == 'stu')? '您的学号' : '您的工号'
-  
-  if role == 'stu'
-    script(src='/units_student.js')
-    script(src='/javascripts/users/newStu.js')
-  else
-    script(src='/units_teacher.js')
-    script(src='/javascripts/users/newTea.js')
-  
+  script(src='/units_student.js')
+  script(src='/javascripts/users/newStu.js')
+
   include ../header.jade
   #users_new.container  
     .panel.panel-primary
